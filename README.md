@@ -7,6 +7,10 @@
 - Reopen in WSL
 
 ### Just once!!!!
+```sh
+git config --global user.name "Your Name"
+git config --global user.email "youremail@yourdomain.com"
+```
 
 ```sh
 sudo apt-get install build-essential clang-format
