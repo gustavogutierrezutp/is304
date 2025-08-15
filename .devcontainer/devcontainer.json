@@ -1,0 +1,19 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-containers",
+        "ms-vscode.cpptools",
+        "xaver.clang-format"
+      ],
+      "settings": {
+        "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+        "C_Cpp.clang_format_fallbackStyle": "file",
+        "editor.formatOnSave": true
+      }
+    }
+  }
+}
