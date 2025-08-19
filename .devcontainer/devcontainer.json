@@ -2,6 +2,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "postCreateCommand": "echo 'Running post-create.sh' && /bin/bash .devcontainer/post_create.sh",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -10,10 +11,14 @@
         "ms-vscode.cpptools"
       ],
       "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
         "C_Cpp.clang_format_path": "/usr/bin/clang-format",
         "C_Cpp.clang_format_fallbackStyle": "file",
         "editor.formatOnSave": true
       }
     }
+  },
+  "remoteEnv": {
+    "DISPLAY": "host.docker.internal:0"
   }
 }

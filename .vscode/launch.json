@@ -2,15 +2,35 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Build and Debug Current File",
       "type": "lldb",
       "request": "launch",
-      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "name": "Debug Current C++ File",
+      "program": "${workspaceFolder}/${fileBasenameNoExtension}",
       "args": [],
       "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "build-current-cpp-file",
       "stopOnEntry": false,
-      "preLaunchTask": "build current file",
-      "env": {},
+      "initCommands": [
+        "settings set target.disable-aslr false",
+        "script import sys; print(sys.executable)",
+        "command script import ${workspaceFolder}/visualize_vars.py",
+      ],
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug Current C File",
+      "program": "${workspaceFolder}/${fileBasenameNoExtension}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "environment": [],
+      "externalConsole": false,
+      "preLaunchTask": "build-current-c-file",
+      "stopOnEntry": false
     }
   ]
 }
