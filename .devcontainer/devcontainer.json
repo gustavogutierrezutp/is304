@@ -5,9 +5,9 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-azuretools.vscode-containers",
-        "ms-vscode.cpptools",
-        "xaver.clang-format"
+        "xaver.clang-format",
+        "vadimcn.vscode-lldb",
+        "ms-vscode.cpptools"
       ],
       "settings": {
         "C_Cpp.clang_format_path": "/usr/bin/clang-format",
