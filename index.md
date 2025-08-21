@@ -2,9 +2,11 @@
 title: Home
 ---
 
-# Welcome to My Documentation
+This is the course on data structures taught at Universidad Tecnológica de
+Pereira, Colombia. In this site you will find practical information and
+supplementary material for the course.
 
-This is the homepage of my Jekyll site using Just the Docs theme.
+The programming language using in this course is C++. A guide to get up and
+running with a working compiler with not too much hassle is provided in this
+[User Guide](docs/guide.md).
 
-
-[User Guide](docs/guide.md)
