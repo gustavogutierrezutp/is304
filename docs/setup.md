@@ -1,3 +1,8 @@
+---
+title: Setup Instructions
+layout: default
+---
+
 ## Instructions
 
 ## Development environment
