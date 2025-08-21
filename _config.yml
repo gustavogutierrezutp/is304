@@ -1,6 +1,8 @@
 title: YOUR TITLE
 description: YOUR DESCRIPTION
-theme: just-the-docs
+#theme: just-the-docs
+plugins:
+  - jekyll-default-layout
 
 url: https://gustavogutierrezutp.github.io/is304
 
