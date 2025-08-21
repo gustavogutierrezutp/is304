@@ -1,5 +1,6 @@
 ---
 title: Home
+layout: home
 ---
 
 This is the supplementary page for the course on data structures taught at
