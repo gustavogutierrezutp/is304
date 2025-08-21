@@ -1,3 +1,8 @@
+---
+title: Setup guide
+layout: default
+---
+
 ## Setup guide
 
 The first step towards a development environment is to get a source code editor.
