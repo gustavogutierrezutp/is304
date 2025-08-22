@@ -1,6 +1,8 @@
 ---
-title: Setup Instructions
+title: Source code and Git repository
 layout: default
+nav_order: 2
+parent: Home
 ---
 
 ## Instructions

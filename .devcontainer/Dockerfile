@@ -9,11 +9,30 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Optional tools
+# Additional packages for development
 RUN apt-get update && apt-get install -y git vim clang-format
 
-RUN apt-get install -y  python3-venv python3-pip
+# Install Ruby and Jekyll
+RUN apt-get update && apt-get install -y ruby-full
 
-RUN apt-get install -y python3-networkx python3-matplotlib
+RUN gem install bundler && \
+    gem install --no-document jekyll:4.4.1 just-the-docs:0.10.1
 
-RUN apt-get install -y x11-apps
+ARG USERNAME=devuser
+ARG USER_UID=1001
+ARG USER_GID=1001
+
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get update && apt-get install -y sudo \
+    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+USER $USERNAME
+CMD ["/bin/bash"]
+
+# RUN apt-get install -y  python3-venv python3-pip
+
+# RUN apt-get install -y python3-networkx python3-matplotlib
+
+# RUN apt-get install -y x11-apps

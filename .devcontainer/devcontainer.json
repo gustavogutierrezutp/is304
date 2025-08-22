@@ -3,6 +3,7 @@
     "dockerfile": "Dockerfile"
   },
   "postCreateCommand": "echo 'Running post-create.sh' && /bin/bash .devcontainer/post_create.sh",
+  "remoteUser": "devuser",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -20,5 +21,11 @@
   },
   "remoteEnv": {
     "DISPLAY": "host.docker.internal:0"
+  },
+  "forwardPorts": [
+    4000
+  ],
+  "containerEnv": {
+    "SHELL": "/bin/bash"
   }
 }

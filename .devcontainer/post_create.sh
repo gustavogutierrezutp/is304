@@ -1,5 +1,9 @@
 #! /bin/bash
 
+# curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+# apt-get install -y nodejs
+
+
 # python3 -m venv .venv 
 # source .venv/bin/activate
 

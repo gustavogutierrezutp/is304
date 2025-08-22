@@ -1,6 +1,9 @@
 ---
-title: Setup guide
+title: "Setup guide"
 layout: default
+nav_order: 2
+parent: Home
+permalink: /guide/
 ---
 
 ## Setup guide
@@ -34,7 +37,7 @@ you need to have [Docker](https://www.docker.com/) installed on your machine for
 this to work. If you are using Windows, you will need to have
 [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) installed as well.
 
-## A "Hello World" example
+## Testing with the classical "Hello World" example
 
 Now that you have a development environment set up, let's create a simple
 program to test it. Create a file named `hw.cpp` in the root of the
@@ -66,3 +69,11 @@ You should see the output:
 Hello, World!
 ```
 
+## Other choices
+
+There are other ways you can set up your development environment. For instance a
+plain WSL. To do that just follow [these instructions
+](https://learn.microsoft.com/en-us/windows/wsl/install) and install the
+packages according to your distribution of choice. If you are running Linux just
+install the appropriate development packages for the compiler and the source
+code controll system and you will be fine.
