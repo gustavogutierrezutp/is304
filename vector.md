@@ -31,17 +31,7 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 Vector<int> filterEven(const Vector<int>& v);
 ```
 
-### 4. Dot Product of Two Vectors
-
-Write a function that computes the dot product of two `Vector<int>` (element-wise multiplication and sum).
-If the vectors don’t have the same size, throw an exception or print an error.
-
-**Signature:**
-```cpp
-int dotProduct(const Vector<int>& a, const Vector<int>& b);
-```
-
-### 5. Dynamic Growth Test
+### 4. Dynamic Growth Test
 
 Write a program that:
 
@@ -59,7 +49,7 @@ Size: 11, Capacity: 15
 ...
 ```
 
-### 6. Merge Two Sorted Vectors
+### 5. Merge Two Sorted Vectors
 
 Implement a function that merges two sorted Vector<int> into one sorted vector (like the merge step of MergeSort).
 
