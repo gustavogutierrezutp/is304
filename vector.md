@@ -13,6 +13,11 @@ Write a function that takes a `Vector<int>` and returns the sum of all elements.
 ```cpp
 int sumVector(const Vector<int>& v);
 ```
+
+```
+ver vexctor.cpp f
+```
+
 ### 2. Reverse a Vector
 
 Write a function that takes a Vector<int> and returns a new Vector<int> with elements in reverse order.
