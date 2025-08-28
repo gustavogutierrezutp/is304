@@ -14,9 +14,10 @@
       "preLaunchTask": "build-current-cpp-file",
       "stopOnEntry": false,
       "initCommands": [
-        "settings set target.disable-aslr false",
-        "script import sys; print(sys.executable)",
+        // "settings set target.disable-aslr false",
+        // "script import sys; print(sys.executable)",
         "command script import ${workspaceFolder}/visualize_vars.py",
+        //"command script import ${workspaceRoot}/mndbrt/debugvis.py"
       ],
     },
     {
