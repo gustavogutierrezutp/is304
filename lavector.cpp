@@ -3,6 +3,7 @@
 
 using namespace std;
 
+template typedef<>
 class LAvector
 {
 private:
@@ -189,35 +190,67 @@ void printVector(const LAvector &v)
 class Matrix
 {
 private:
-    LAvector columns;
+    LAvector components;
     int n_cols;
     int n_rows;
 
 public:
-    Matrix(const LAvector a, const LAvector b)
+    Matrix()
     {
-        if (a.size() != b.size())
-        {
-            throw runtime_error("Vectors must be of the same dimension")
-        }
-        columns.push_back(a);
-        columns.push_back(b);
-        n_cols = 2;
-        n_rows = a.size();
+        n_cols = 0;
+        n_rows = 0;
     }
 
     Matrix(const Matrix &other)
     {
         for (int i = 0; i < n_cols; i++)
         {
-            columns.push_back(other.columns[i]);
+            components.push_back(other.components[i]);
         }
+        n_cols = other.n_cols;
+        n_rows = other.n_rows;
+    }
+
+    void push_vector(const LAvector &v){
+        if (n_cols == 0){
+            components.push_back(v);
+            n_rows = v.size();
+            n_cols ++;     
+        } else if (v.size() != n_rows){
+            throw runtime_error("Vectors must be of the same dimension");
+        }        
+    }
+
+    void rows() const {
+        return n_rows;
+    }
+
+    void columns() const {
+        return n_cols;
+    }
+
+    LAvector multiply_vector(){
+
+    }
+
+    LAvector operator[](const int index) const {
+        return components[index];
+    }
+
+    Matrix multiply_scalar(const double s){
+        Matrix r;
+        for (int i = 0; i < n_cols; i++){
+            for (int j = 0; j < n_rows; j++){
+                r[i][j] = components[i][j] * s;
+            }
+        }
+        return r;
     }
 };
 
 int main()
 {
-    LAvector v;
+    /*LAvector v;
     LAvector w;
     v.push_back(2);
     v.push_back(3);
@@ -242,5 +275,18 @@ int main()
     cout << "The magnitude of V is " << mag << endl;
     LAvector norm_v(v.normalize());
     cout << "The normalized vector of V is ";
-    printVector(norm_v);
+    printVector(norm_v);*/
+    
+    Matrix a;
+    LAvector f;
+    f.push_back(1);
+    f.push_back(2);
+    printVector(f);
+    LAvector g;
+    g.push_back(2);
+    g.push_back(4);
+     printVector(g);
+    a.push_vector(f);
+    a.push_vector(g);
+    Matrix b(a.multiply_scalar(2));
 }
