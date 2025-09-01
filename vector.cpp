@@ -2,7 +2,9 @@
 
 using namespace std;
 
-template <typename T> class Vector {
+template <typename T>
+class Vector
+{
 private:
   // Stores the elements of the vector
   T *storage;
@@ -14,43 +16,51 @@ private:
   double policy;
 
 public:
-  Vector() {
+  Vector()
+  {
     storage = new T[5];
     sz = 0;
     capacity = 5;
     policy = 1.5;
   }
 
-  Vector(unsigned int c, double p = 1.5) {
+  Vector(unsigned int c, double p = 1.5)
+  {
     storage = new T[c];
     sz = 0;
     capacity = c;
     policy = p;
   }
 
-  Vector(const Vector<T> &other) {
+  Vector(const Vector<T> &other)
+  {
     sz = other.size();
     capacity = other.capacity;
     policy = other.policy;
     storage = new T[capacity];
-    for (unsigned int i = 0; i < sz; i++) {
+    for (unsigned int i = 0; i < sz; i++)
+    {
       storage[i] = other.storage[i];
     }
   }
 
   ~Vector() { delete[] storage; }
 
-  void push_back(const T &elem) {
-    if (sz == capacity) {
+  void push_back(const T &elem)
+  {
+    if (sz == capacity)
+    {
       resize();
     }
     storage[sz] = elem;
     sz++;
   }
 
-  void push_back(const Vector<T> &other) {
+  void push_back(const Vector<T> &other)
+  {
     reserve(sz + other.size());
-    for (unsigned int i = 0; i < other.size(); i++) {
+    for (unsigned int i = 0; i < other.size(); i++)
+    {
       push_back(other.storage[i]);
     }
   }
@@ -60,21 +70,26 @@ public:
   unsigned int size() const { return sz; }
 
 private:
-  void resize() {
+  void resize()
+  {
     capacity *= policy;
     T *new_storage = new T[capacity];
-    for (unsigned int i = 0; i < sz; i++) {
+    for (unsigned int i = 0; i < sz; i++)
+    {
       new_storage[i] = storage[i];
     }
     delete[] storage;
     storage = new_storage;
   }
 
-  void reserve(unsigned int new_capacity) {
-    if (new_capacity > capacity) {
+  void reserve(unsigned int new_capacity)
+  {
+    if (new_capacity > capacity)
+    {
       capacity = new_capacity;
       T *new_storage = new T[capacity];
-      for (unsigned int i = 0; i < sz; i++) {
+      for (unsigned int i = 0; i < sz; i++)
+      {
         new_storage[i] = storage[i];
       }
       delete[] storage;
@@ -83,10 +98,13 @@ private:
   }
 
 public:
-  void shrink_to_fit() {
-    if (sz < capacity) {
+  void shrink_to_fit()
+  {
+    if (sz < capacity)
+    {
       T *new_storage = new T[sz];
-      for (unsigned int i = 0; i < sz; i++) {
+      for (unsigned int i = 0; i < sz; i++)
+      {
         new_storage[i] = storage[i];
       }
       delete[] storage;
@@ -106,40 +124,102 @@ public:
     return storage[index];
   }
 
-  const T &at(unsigned int index) const {
-    if (index >= sz) {
+  const T &at(unsigned int index) const
+  {
+    if (index >= sz)
+    {
       throw out_of_range("Index out of range");
     }
     return storage[index];
   }
 };
 
-void printVector(const Vector<int> &v) {
-  for (unsigned int i = 0; i < v.size(); i++) {
+void printVector(const Vector<int> &v)
+{
+  for (unsigned int i = 0; i < v.size(); i++)
+  {
     cout << v[i] << " ";
   }
   cout << endl;
 }
 
-class Point {
-private:
-  double x, y;
-
-public:
-  Point(double x = 0, double y = 0) : x(x), y(y) {}
-};
-
-int main() {
-  Vector<int> u;
-
-  for (int i = 0; i < 10; i++) {
-    u.push_back(i);
+int vectorSum(const Vector<int> &u)
+{
+  int sum;
+  sum = 0;
+  for (int i = 0; i < u.size(); i++)
+  {
+    sum += u[i];
   }
+  return sum;
+}
 
-  printVector(u);
+Vector<int> reverseVector(const Vector<int>& u)
+{
+  if (u.size() == 0)
+  {
+    return u;
+  }
+  int limit;
+  limit = u.size() - 1;
+  Vector<int> w;
+  for (int i = 0; i < (limit + 1); i++)
+  {
+    w.push_back(u[limit - i]);
+  }
+  return w;
+}
 
-  u[3] = 100;
+Vector<int> filterEven(const Vector<int>& u){
+  if (u.size() == 0){
+    return u;
+  }
+  int limit;
+  limit = u.size();
+  Vector<int> w;
+  for (int i = 0; i < limit; i ++){
+    if (u[i] % 2 == 0){
+      w.push_back(u[i]);
+    }
+  }
+  return w;
+}
 
-  printVector(u);
+Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b){
+  if (a.size() == 0){
+    return b;
+  } else if (b.size() == 0) {
+    return a;
+  }
+  Vector<int> w;
+  for (int i = 0; i < a.size(); i ++){
+    w.push_back(a[i]);
+  }
+  for (int i = 0; i < b.size(); i ++){
+    w.push_back(b[i]);
+  }
+  for (int i = 0; i < w.size(); i ++){
+    for (int j = 0; j < w.size() - i - 1; j++ ){
+        if(w[j] > w[j+1]){
+          int bridge;
+          bridge = w[j];
+          w[j] = w[j+1];
+          w[j+1] = bridge;
+        }
+    }
+  }
+  return w;
+}
+
+int main()
+{
+  Vector<int> u;
+for (int i = 0; i < 10; i++)
+{
+  u.push_back(i);
+}
+  Vector<int> v(u);
+  Vector<int> y(mergeSorted(u, v));
+  printVector(y);
   return 0;
 }
