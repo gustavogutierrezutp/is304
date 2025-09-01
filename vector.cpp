@@ -78,6 +78,7 @@ private:
     {
       new_storage[i] = storage[i];
     }
+    cout << "Size: " << sz << " " << "Capacity: " << capacity << endl;
     delete[] storage;
     storage = new_storage;
   }
@@ -214,12 +215,9 @@ Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b){
 int main()
 {
   Vector<int> u;
-for (int i = 0; i < 10; i++)
+for (int i = 0; i < 1000; i++)
 {
   u.push_back(i);
 }
-  Vector<int> v(u);
-  Vector<int> y(mergeSorted(u, v));
-  printVector(y);
   return 0;
 }
