@@ -2,6 +2,10 @@
 
 These exercises will help you practice using the custom `Vector<T>` implementation.
 
+Too see the answers to the exercise go to folder "RespuestasTareas/Vectores". In this folder, the first five
+exercises correspond to "primerpunto", "segundopunto", etc. And for the Vectors in the context for linear 
+algebra, the three exercises correspond to files that ends with "_punto_algebra".
+
 ---
 
 ## Vectors as data structures
