@@ -145,6 +145,17 @@ Vector<int> reverseVector(const Vector<int>& v) {
     return reversed;
 }
 
+// 3. Filtrar los elementos pares de un vector
+Vector<int> filterEven(const Vector<int>& v) {
+    Vector<int> even;
+    for (int i = 0; i < v.sizeV(); i++) {
+        if (v[i] % 2 == 0) {
+            even.push_back(v[i]);
+        }
+    }
+    return even; 
+}
+
 //  A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
 // Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
 
@@ -195,5 +206,33 @@ int main(){
     Vector<int> r = reverseVector(v);
     cout << "Invertido: ";
     for (int i = 0; i < r.sizeV(); i++) cout << r[i] << " ";
+    cout << endl;
+}
+
+//Main de prueba ejercicio 3 con valores predeterminados
+int main(){
+    Vector<int> u;
+    for(int i = 0; i < 14; i++){
+        u.push_back(i+3);
+    }
+    Vector<int> even = filterEven(u);
+    cout << "Los numeros pares son: ";
+    for (int i = 0; i < even.sizeV(); i++) {
+        cout << even[i] << " ";
+    }
+    cout << endl << endl;
+}
+// Main de prueba ejercicio 3 con entrada del usuario
+int main(){
+    int n; cout << "Ingrese tamaño del vector: "; cin >> n;
+    Vector<int> v;
+    cout << "Ingrese " << n << " numeros: ";
+    for (int i = 0; i < n; i++) {
+        int x; cin >> x;
+        v.push_back(x);
+    }
+    Vector<int> pares = filterEven(v);
+    cout << "Pares: ";
+    for (int i = 0; i < pares.sizeV(); i++) cout << pares[i] << " ";
     cout << endl;
 }
