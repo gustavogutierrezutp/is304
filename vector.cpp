@@ -136,6 +136,15 @@ int sumVector(const Vector<int>& v) {
     return suma;
 }
 
+// 2. Sacar el reverso de un vector
+Vector<int> reverseVector(const Vector<int>& v) {
+    Vector<int> reversed;
+    for (int i = v.sizeV() - 1; i >= 0; i--) {
+        reversed.push_back(v[i]);
+    }
+    return reversed;
+}
+
 //  A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
 // Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
 
@@ -158,4 +167,33 @@ int main(){
         v.push_back(x);
     }
     cout << "La suma es: " << sumVector(v) << endl;
+}
+
+//Main de prueba ejercicio 2 con valores predeterminados
+int main(){
+    Vector<int> l;
+    for(int i = 0; i < 15; i++){
+        l.push_back(i+5);
+    }
+    Vector<int> reverse = reverseVector(l);
+    cout << "El vector invertido es: ";
+    for (int i = 0; i < reverse.sizeV(); i++) {
+        cout << reverse[i] << " ";
+    }
+    cout << endl;
+    return 0;
+}
+// Main de prueba ejercicio 2 con entrada del usuario
+int main(){
+    int n; cout << "Ingrese tamaño del vector: "; cin >> n;
+    Vector<int> v;
+    cout << "Ingrese " << n << " numeros: ";
+    for (int i = 0; i < n; i++) {
+      int x; cin >> x;
+      v.push_back(x);
+    }
+    Vector<int> r = reverseVector(v);
+    cout << "Invertido: ";
+    for (int i = 0; i < r.sizeV(); i++) cout << r[i] << " ";
+    cout << endl;
 }
