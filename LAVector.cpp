@@ -175,7 +175,52 @@ public:
     }
 };
 
+// Ejercicio 8: Capa de red neuronal (pesos, sesgos, función de activación sigmoide y ReLU)
+class NeuralLayer {
+private:
+    Matrix weights;  // Matriz de pesos (salidas x entradas)
+    LAVector bias;   // Vector de sesgo (una entrada por salida)
+    bool useReLU;    // Activación: false = sigmoide, true = ReLU
 
+    // Función sigmoide
+    double sigmoid(double x) const {
+        return 1.0 / (1.0 + exp(-x));
+    }
+
+    // ReLU
+    double relu(double x) const {
+        return (x > 0) ? x : 0;
+    }
+
+public:
+    NeuralLayer(int inputSize, int outputSize, bool relu = false)
+        : weights(outputSize, inputSize), bias(outputSize, 0.0), useReLU(relu) {}
+
+    // Configurar pesos y sesgos manualmente (para pruebas)
+    void setWeight(int i, int j, double val) { weights[i][j] = val; }
+    void setBias(int i, double val) { bias[i] = val; }
+
+    // Propagación hacia adelante
+    LAVector forward(const LAVector& input) const {
+        // Wx + b
+        LAVector z = (weights * input);
+        for (int i = 0; i < z.size(); i++)
+            z[i] += bias[i];
+
+        // Activación
+        LAVector output(z.size());
+        for (int i = 0; i < z.size(); i++) {
+            output[i] = useReLU ? relu(z[i]) : sigmoid(z[i]);
+        }
+        return output;
+    }
+};
+
+/*
+A continuacion se presentan los main para probar con cada uno de los ejercicios propuestos, 
+cada uno esta comentado para evitar conflictos al momento de compilar y ejecutar el programa, entonces 
+quitar los comentarios para poder probar cada uno.
+*/
 
 /*
 // Main de prueba ejercicio 6 con valores predeterminados
@@ -208,6 +253,7 @@ int main() {
 }
 */
 
+/*
 // Main de prueba ejercicio 7 con valores predeterminados 
 int main() {
     // Matriz de rotación 2D (45 grados)
@@ -225,5 +271,27 @@ int main() {
     // Rotamos el punto
     LAVector p_rot = R * p;
     cout << "Punto rotado: "; p_rot.print(); cout << endl;
+    return 0;
+}
+*/
+
+// Main de prueba ejercicio 8 con entrada del usuario
+int main() {
+    // Capa con 3 entradas y 2 salidas
+    NeuralLayer layer(3, 2, true); // false = usa sigmoide , true = usa ReLU
+    // Definimos pesos y sesgos manualmente
+    // salida1 = σ(0.2*x1 + 0.4*x2 + 0.6*x3 + 0.5)
+    // salida2 = σ(0.1*x1 + 0.3*x2 + 0.9*x3 + -0.3)
+    layer.setWeight(0, 0, 0.2); layer.setWeight(0, 1, 0.4); layer.setWeight(0, 2, 0.6);
+    layer.setWeight(1, 0, 0.1); layer.setWeight(1, 1, 0.3); layer.setWeight(1, 2, 0.9);
+    layer.setBias(0, 0.5);
+    layer.setBias(1, -0.3);
+    // Vector de entrada (3 valores)
+    LAVector input(3);
+    input[0] = 1.0; input[1] = 2.0; input[2] = 3.0;
+    cout << "Entrada: "; input.print(); cout << endl;
+    // Propagación hacia adelante
+    LAVector output = layer.forward(input);
+    cout << "Salida de la capa: "; output.print(); cout << endl;
     return 0;
 }
