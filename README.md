@@ -626,4 +626,4 @@ LA_Vector simple_linear_2d_transformation(const LA_Vector& vector, float angle)
 ```
 
 ### Notes:
-I'm aware that the matrix implementation is missing some operators, which I skipped since my main focus was on covering the exercise requirements. In addition, I was not able to properly implement point 3 (Neural Network), so I decided not to include it in this homework.
+As before, you can check the full code whenever you want. I just included the portion I considered most relevant. Also, I'm aware that the matrix implementation is missing some operators, which I skipped since my main focus was on covering the exercise requirements. In addition, I was not able to properly implement point 3 (Neural Network), so I decided not to include it in this homework.
