@@ -14,7 +14,7 @@ Write a function that takes a `Vector<int>` and returns the sum of all elements.
 int sumVector(const Vector<int>& v);
 ```
 
-**Solution**
+**Solution:**
 ```cpp
 int sumVector(const Vector<int>& v)
   {
@@ -38,7 +38,7 @@ Write a function that takes a Vector<int> and returns a new Vector<int> with ele
 Vector<int> reverseVector(const Vector<int>& v);
 ```
 
-**Solution**
+**Solution:**
 ```cpp
 Vector<int> reverseVector(const Vector<int>& v)
 {
@@ -65,7 +65,7 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 Vector<int> filterEven(const Vector<int>& v);
 ```
 
-**Solution**
+**Solution:**
 ```cpp
 Vector<int> filterEven(const Vector<int>& v)
 {
@@ -102,7 +102,7 @@ Size: 11, Capacity: 15
 ...
 ```
 
-**Solution**
+**Solution:**
 ```cpp
 void Dynamic_Growth_Test()
 {
@@ -136,7 +136,7 @@ Implement a function that merges two sorted Vector<int> into one sorted vector (
 Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b);
 ```
 
-**Solution**
+**Solution:**
 ```cpp
 Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b)
 {
@@ -186,7 +186,7 @@ Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b)
 ```
 
 
-Feel free to check out the "vectors.cpp" file in case you want to test the methods or just to see the full implementation.
+**Feel free to check out the "vectors.cpp" file in case you want to test the methods or just to see the full implementation.**
 
 
 ## Vectors in the context of linear algebra
@@ -202,7 +202,235 @@ algebra (not a a data structure that stores elements):
 - Add a `magnitude()` method to calculate the Euclidean norm
 - **Challenge**: Implement vector normalization
 
-**Test Case**: Create two 3D vectors representing points in space and perform all operations.
+**Complete LAVector class:**
+```cpp
+class LA_Vector
+{
+    private:
+
+    float* arreglo;
+    unsigned int ndim;
+
+
+    public:
+
+    LA_Vector()
+    {
+        arreglo = nullptr;
+        ndim = 0;
+    }
+
+
+    LA_Vector(float* arreglo_extra, unsigned int size)
+    {
+        arreglo = new float[size];
+        ndim = size;
+
+        for (int i=0; i<size; i++)
+        {
+            arreglo[i] = arreglo_extra[i];
+        }
+    }
+
+    LA_Vector(const LA_Vector &other) 
+    {
+        ndim = other.ndimensiones();
+
+        arreglo = new float[other.ndimensiones()];
+
+        for (unsigned int i = 0; i < other.ndimensiones(); i++) 
+        {
+            arreglo[i] = other.arreglo[i];
+        }
+    }
+    
+
+    ~LA_Vector()
+    {
+        delete[] arreglo;
+    }
+
+    unsigned int ndimensiones() const
+    {
+        return ndim;
+    }
+
+    float &operator[](unsigned int index) 
+    { 
+    return arreglo[index]; 
+    }
+
+    const float &operator[](unsigned int index) const 
+    { 
+        return arreglo[index]; 
+    }
+
+    float &at(unsigned int index) 
+    {
+        if (index >= ndim) 
+        {
+            throw out_of_range("Index out of range");
+        }
+    return arreglo[index];
+    }
+
+    const float &at(unsigned int index) const 
+    {
+      if (index >= ndim) 
+      {
+        throw out_of_range("Index out of range");
+      }
+    return arreglo[index];
+    }
+
+    LA_Vector& operator=(const LA_Vector& other)
+    {
+        if (this == &other) 
+        {
+            return *this;
+        }
+
+        delete[] arreglo; 
+        ndim = other.ndimensiones();
+        arreglo = new float[ndim]; 
+        for (unsigned int i = 0; i < ndim; i++)
+        {
+            arreglo[i] = other.arreglo[i]; 
+        }
+        return *this;
+    }
+
+    void print()
+    {   
+        cout << "(";
+        for (int i=0; i<ndim; i++)
+        {
+            if (i+1 == ndim)
+            {
+                cout << arreglo[i];
+                break;
+            }
+
+            cout << arreglo[i] << " , ";
+        }
+        cout << ")";
+        cout << endl;
+    }
+
+
+// Taller --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    LA_Vector operator+(const LA_Vector& v2) const
+    {
+        if (ndim == v2.ndimensiones())
+        {
+            float* arr_aux = new float[ndim];
+
+            for (int i=0; i<ndim; i++)
+            {
+                arr_aux[i] = arreglo[i] + v2[i];
+            }
+
+            LA_Vector suma(arr_aux,ndim);
+            delete[] arr_aux;
+            return suma;
+
+        }
+
+        else
+        {
+            throw invalid_argument("Invalid number of dimensions.");
+        }
+
+    }
+
+
+
+    LA_Vector operator-(const LA_Vector& v2) const
+    {
+        if (ndim == v2.ndimensiones())
+        {
+            float* arr_aux = new float[ndim];
+
+            for (int i=0; i<ndim; i++)
+            {
+                arr_aux[i] = v2[i] - arreglo[i];
+            }
+
+            LA_Vector resta(arr_aux,ndim);
+            delete[] arr_aux;
+            return resta;
+
+        }
+
+        else
+        {
+            throw invalid_argument("Invalid number of dimensions.");
+        }
+
+    }
+
+
+
+    LA_Vector operator*(const float scalar) const
+    {
+        float* arr_aux = new float[ndim];
+
+        for (int i=0; i<ndim; i++)
+        {
+            arr_aux[i] = arreglo[i]*scalar;
+        }
+
+        LA_Vector escalar(arr_aux,ndim);
+        delete[] arr_aux;
+        return escalar;
+
+    }
+
+
+
+    float dot_product(const LA_Vector& v2) const
+    {
+        float acumulado = 0;
+
+        if (ndim == v2.ndimensiones())
+        {
+            
+            for (int i=0; i<ndim; i++)
+            {
+                acumulado = acumulado + (arreglo[i] * v2[i]);
+            }
+
+            return acumulado;
+
+        }
+
+        else
+        {
+            throw invalid_argument("Invalid number of dimensions.");
+        }
+
+    }
+
+
+
+    float magnitude() const
+    {
+        float acumulado = 0;
+
+        for (int i=0; i<ndim; i++)
+        {
+            acumulado = acumulado + (arreglo[i]*arreglo[i]);
+        }
+
+        return sqrt(acumulado);
+
+    }
+
+};
+
+```
+
 
 ### Exercise 2: Matrix-Vector Multiplication Engine
 Create a `Matrix` class that uses your `LAVector` class internally to store rows:
