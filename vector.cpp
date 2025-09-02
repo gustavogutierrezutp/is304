@@ -183,10 +183,12 @@ Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b) {
     return merged;
 }
 
-/* A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
- Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
- Se comenta cada uno de los mains para evitar conflictos al momento de compilar y ejecutar el programa, entonces quitar los comentarios para poder probar cada uno
+/* 
+  A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
+  Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
+  Se comenta cada uno de los mains para evitar conflictos al momento de compilar y ejecutar el programa, entonces quitar los comentarios para poder probar cada uno
 */
+
 /*
 // Main de prueba ejercicio 1 con valores predeterminados
 int main(){
@@ -209,6 +211,7 @@ int main(){
     cout << "La suma es: " << sumVector(v) << endl;
 }
 */
+
 /*
 //Main de prueba ejercicio 2 con valores predeterminados
 int main(){
@@ -239,6 +242,7 @@ int main(){
     cout << endl;
 }
 */
+
 /*
 //Main de prueba ejercicio 3 con valores predeterminados
 int main(){
@@ -268,6 +272,7 @@ int main(){
     cout << endl;
 }
 */
+
 /*
 //Main de prueba ejercicio 4 con valores predeterminados 
 // (No se puede hacer por la entrada del usuario ya que el ejercicio es mas como un test de impresion de la capacidad dinamica del vector)
@@ -286,6 +291,7 @@ int main() {
     }
 }
 */
+
 /*
 //Main de prueba ejercicio 5
 int main(){

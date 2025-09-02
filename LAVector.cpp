@@ -275,6 +275,7 @@ int main() {
 }
 */
 
+/*
 // Main de prueba ejercicio 8 con entrada del usuario
 int main() {
     // Capa con 3 entradas y 2 salidas
@@ -295,3 +296,4 @@ int main() {
     cout << "Salida de la capa: "; output.print(); cout << endl;
     return 0;
 }
+*/
