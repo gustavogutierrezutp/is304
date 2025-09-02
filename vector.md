@@ -13,6 +13,8 @@ Write a function that takes a `Vector<int>` and returns the sum of all elements.
 ```cpp
 int sumVector(const Vector<int>& v);
 ```
+*Answer at line 147 in vector.cpp*
+
 ### 2. Reverse a Vector
 
 Write a function that takes a Vector<int> and returns a new Vector<int> with elements in reverse order.
@@ -21,6 +23,7 @@ Write a function that takes a Vector<int> and returns a new Vector<int> with ele
 ```cpp
 Vector<int> reverseVector(const Vector<int>& v);
 ```
+*Answer at line 158 in vector.cpp*
 
 ### 3. **Filter Even Numbers**
 
@@ -30,6 +33,8 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 ```cpp
 Vector<int> filterEven(const Vector<int>& v);
 ```
+
+*Answer at line 174 in vector.cpp*
 
 ### 4. Dynamic Growth Test
 
@@ -49,6 +54,8 @@ Size: 11, Capacity: 15
 ...
 ```
 
+*Answer at line 218 and 81 in vector.cpp*
+
 ### 5. Merge Two Sorted Vectors
 
 Implement a function that merges two sorted Vector<int> into one sorted vector (like the merge step of MergeSort).
@@ -57,6 +64,8 @@ Implement a function that merges two sorted Vector<int> into one sorted vector (
 ```cpp
 Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b);
 ```
+
+*Answer at line 189 in vector.cpp*
 
 ## Vectors in the context of linear algebra
 
@@ -72,6 +81,8 @@ algebra (not a a data structure that stores elements):
 - **Challenge**: Implement vector normalization
 
 **Test Case**: Create two 3D vectors representing points in space and perform all operations.
+
+*Answer at line 6 in lavector.cpp and test at line 251*
 
 ### Exercise 2: Matrix-Vector Multiplication Engine
 Create a `Matrix` class that uses your `LAVector` class internally to store rows:
