@@ -6,6 +6,8 @@ These exercises will help you practice using the custom `Vector<T>` implementati
 
 ## Vectors as data structures
 
+## mi tarea esta desde la linea 130 de vector.cpp
+
 ### 1. **Sum of Elements**
 Write a function that takes a `Vector<int>` and returns the sum of all elements.  
 
