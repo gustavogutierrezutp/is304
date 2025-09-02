@@ -1,3 +1,12 @@
+/*
+Names: Juan Jose Posada Arboleda and Juan Jose Mendez Lozano
+Teacher: Gustavo Adolfo Gutierrez
+Course: Data Structures 2025-2
+Date: 08/31/2025
+Description: This code implements a Vector class in C++ with basic functionalities like size, push_back, and element access.
+    It also include fifth functions that operate on Vector<int>: Sumatory of elements, Reverse the vector, Filter even elements, dynamic growth test and merge two sorted vectors.
+*/
+
 #include <iostream>
 
 using namespace std;
@@ -112,34 +121,41 @@ public:
     }
     return storage[index];
   }
+  int sizeV() const { return sz; }
+  int getCapacity() const {
+        return capacity;
+    }
 };
 
-void printVector(const Vector<int> &v) {
-  for (unsigned int i = 0; i < v.size(); i++) {
-    cout << v[i] << " ";
-  }
-  cout << endl;
+// 1. Función que suma elementos de un Vector<int>
+int sumVector(const Vector<int>& v) {
+    int suma = 0;
+    for (int i = 0; i < v.sizeV(); i++) {
+        suma += v[i];
+    }
+    return suma;
 }
 
-class Point {
-private:
-  double x, y;
+//  A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
+// Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
 
-public:
-  Point(double x = 0, double y = 0) : x(x), y(y) {}
-};
-
-int main() {
-  Vector<int> u;
-
-  for (int i = 0; i < 10; i++) {
-    u.push_back(i);
-  }
-
-  printVector(u);
-
-  u[3] = 100;
-
-  printVector(u);
-  return 0;
+// Main de prueba ejercicio 1 con valores predeterminados
+int main(){
+    Vector<int> u;
+    for(int i = 0; i < 15; i++){
+        u.push_back(i+2);
+    }
+    cout << "La suma es: " << sumVector(u) << endl;
+    return 0;
+}
+//Main de prueba ejercicio 1 con entrada del usuario
+int main(){
+    int n; cout << "Ingrese tamaño del vector: "; cin >> n;
+    Vector<int> v;
+    cout << "Ingrese " << n << " numeros: ";
+    for (int i = 0; i < n; i++) {
+        int x; cin >> x;
+        v.push_back(x);
+    }
+    cout << "La suma es: " << sumVector(v) << endl;
 }
