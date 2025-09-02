@@ -236,3 +236,19 @@ int main(){
     for (int i = 0; i < pares.sizeV(); i++) cout << pares[i] << " ";
     cout << endl;
 }
+//Main de prueba ejercicio 4 con valores predeterminados 
+// (No se puede hacer por la entrada del usuario ya que el ejercicio es mas como un test de impresion de la capacidad dinamica del vector)
+// Este ejercicio es un crecimiento dinamico del vector y se imprime su tamaño y capacidad cada vez que esta cambia
+int main() {
+    Vector<int> u;
+    int oldCap = u.getCapacity();
+
+    for (int i=1; i<=1000; i++) {
+        u.push_back(i);
+        if (u.getCapacity() != oldCap) {
+            cout << "Size: " << u.sizeV()
+                 << ", Capacity: " << u.getCapacity() << endl;
+            oldCap = u.getCapacity();
+        }
+    }
+}
