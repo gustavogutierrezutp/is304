@@ -10,6 +10,7 @@ Description:
 #include <cmath>
 using namespace std;
 
+//Ejercicio 6: Operaciones con vectores (suma, resta, multiplicacion escalar, producto escalar, magnitud, normalizacion)
 class LAVector {
 private:
     int n;        // dimensión del vector
@@ -105,6 +106,79 @@ public:
     }
 };
 
+// Ejercicio 7: Matriz por vector, suma de matrices, multiplicación escalar, transpuesta.
+class Matrix {
+private:
+    int rows, cols;
+    LAVector* data; // cada fila es un LAVector
+
+public:
+    Matrix(int r, int c, double val = 0.0) {
+        rows = r; cols = c;
+        data = new LAVector[rows];
+        for (int i = 0; i < rows; i++)
+            data[i] = LAVector(cols, val);
+    }
+    Matrix(const Matrix& other) {
+        rows = other.rows;
+        cols = other.cols;
+        data = new LAVector[rows];
+        for (int i = 0; i < rows; i++)
+            data[i] = other.data[i];
+    }
+
+    ~Matrix() { delete[] data; }
+
+    LAVector& operator[](int i) { return data[i]; }
+    const LAVector& operator[](int i) const { return data[i]; }
+
+    int rowCount() const { return rows; }
+    int colCount() const { return cols; }
+
+    // Multiplicación matriz-vector
+    LAVector operator*(const LAVector& v) const {
+        LAVector result(rows);
+        for (int i = 0; i < rows; i++)
+            result[i] = data[i].dot_product(v);
+        return result;
+    }
+    // Suma de matrices
+    Matrix operator+(const Matrix& other) const {
+        Matrix result(rows, cols);
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[i][j] = data[i][j] + other[i][j];
+        return result;
+    }
+    // Multiplicación escalar
+    Matrix operator*(double scalar) const {
+        Matrix result(rows, cols);
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[i][j] = data[i][j] * scalar;
+        return result;
+    }
+    // Transpuesta
+    Matrix transpose() const {
+        Matrix result(cols, rows);
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < cols; j++)
+                result[j][i] = data[i][j];
+        return result;
+    }
+    // Mostrar matriz
+    void print() const {
+        for (int i = 0; i < rows; i++) {
+            data[i].print();
+            cout << endl;
+        }
+    }
+};
+
+
+
+/*
+// Main de prueba ejercicio 6 con valores predeterminados
 int main() {
     LAVector v1(3); // vector de dimensión 3
     v1[0] = 3; v1[1] = 4; v1[2] = 0;
@@ -130,5 +204,26 @@ int main() {
     LAVector norm = v1.normalize();
     cout << "Normalizado v1 = "; norm.print(); cout << endl;
 
+    return 0;
+}
+*/
+
+// Main de prueba ejercicio 7 con valores predeterminados 
+int main() {
+    // Matriz de rotación 2D (45 grados)
+    double angle = M_PI / 4; // 45 grados en radianes
+    Matrix R(2, 2);
+    R[0][0] = cos(angle); R[0][1] = -sin(angle);
+    R[1][0] = sin(angle); R[1][1] = cos(angle);
+    cout << "Matriz de rotación 45°:" << endl;
+    R.print();
+    cout << endl;
+    // Vector de punto (1, 0)
+    LAVector p(2);
+    p[0] = 1; p[1] = 0;
+    cout << "Punto original: "; p.print(); cout << endl;
+    // Rotamos el punto
+    LAVector p_rot = R * p;
+    cout << "Punto rotado: "; p_rot.print(); cout << endl;
     return 0;
 }
