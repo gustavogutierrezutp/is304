@@ -15,7 +15,7 @@ int sumVector(const Vector<int>& v);
 ```
 
 ```
-ver vexctor.cpp f
+ver vector.cpp function: Line 130, main: Line 193
 ```
 
 ### 2. Reverse a Vector
@@ -26,6 +26,9 @@ Write a function that takes a Vector<int> and returns a new Vector<int> with ele
 ```cpp
 Vector<int> reverseVector(const Vector<int>& v);
 ```
+```
+ver vector.cpp function: Line 139, main: Line 217
+```
 
 ### 3. **Filter Even Numbers**
 
@@ -35,18 +38,11 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 ```cpp
 Vector<int> filterEven(const Vector<int>& v);
 ```
-
-### 4. Dot Product of Two Vectors
-
-Write a function that computes the dot product of two `Vector<int>` (element-wise multiplication and sum).
-If the vectors don’t have the same size, throw an exception or print an error.
-
-**Signature:**
-```cpp
-int dotProduct(const Vector<int>& a, const Vector<int>& b);
+```
+ver vector.cpp function: Line 148, main: Line 247
 ```
 
-### 5. Dynamic Growth Test
+### 4. Dynamic Growth Test
 
 Write a program that:
 
@@ -63,8 +59,11 @@ Size: 8, Capacity: 10
 Size: 11, Capacity: 15
 ...
 ```
+```
+ver vector.cpp main: Line 277
+```
 
-### 6. Merge Two Sorted Vectors
+### 5. Merge Two Sorted Vectors
 
 Implement a function that merges two sorted Vector<int> into one sorted vector (like the merge step of MergeSort).
 
@@ -72,7 +71,9 @@ Implement a function that merges two sorted Vector<int> into one sorted vector (
 ```cpp
 Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b);
 ```
-
+```
+ver vector.cpp function: Line 160, main: Line 296
+```
 ## Vectors in the context of linear algebra
 
 ### 1. LAVector class
@@ -88,6 +89,9 @@ algebra (not a a data structure that stores elements):
 
 **Test Case**: Create two 3D vectors representing points in space and perform all operations.
 
+```
+ver LAVector.cpp class: Line 13, main: Line 226
+```
 ### Exercise 2: Matrix-Vector Multiplication Engine
 Create a `Matrix` class that uses your `LAVector` class internally to store rows:
 - Implement matrix-vector multiplication (Ax = b)
@@ -96,6 +100,10 @@ Create a `Matrix` class that uses your `LAVector` class internally to store rows
 - **AI Connection**: Use this to implement a simple linear transformation for 2D point rotation
 
 **Test Case**: Rotate a set of 2D points by 45 degrees using matrix multiplication.
+
+```
+ver LAVector.cpp class: Line 13, main: Line 257
+```
 
 ### Exercise 3: Neural Network Layer Implementation
 Use your Vector class to implement a simple neural network layer:
@@ -106,3 +114,6 @@ Use your Vector class to implement a simple neural network layer:
 
 **Test Case**: Create a layer with 3 inputs, 2 outputs, and process a sample input vector.
 
+```
+ver LAVector.cpp class: Line 179, main: Line 280
+```
