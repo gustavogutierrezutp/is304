@@ -1,3 +1,7 @@
+
+# Autor: Jesus David Grajales Montoya
+# ID: 1089382804
+
 # 📘 Vector Practice Exercises
 
 These exercises will help you practice using the custom `Vector<T>` implementation.
