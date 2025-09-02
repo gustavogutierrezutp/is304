@@ -156,6 +156,33 @@ Vector<int> filterEven(const Vector<int>& v) {
     return even; 
 }
 
+// 5. Fusionar dos vectores ordenados
+Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b) {
+    Vector<int> merged;
+    int i = 0, j = 0;
+    // Fusionar elementos mientras ambos vectores tengan elementos restantes
+    while (i < a.sizeV() && j < b.sizeV()) {
+        if (a[i] <= b[j]) {
+            merged.push_back(a[i]);
+            i++;
+        } else {
+            merged.push_back(b[j]);
+            j++;
+        }
+    }
+    // Añadiendo los elementos restantes del vector a
+    while (i < a.sizeV()) {
+        merged.push_back(a[i]);
+        i++;
+    }
+    // Añadiendo los elementos restantes del vector b
+    while (j < b.sizeV()) {
+        merged.push_back(b[j]);
+        j++;
+    }
+    return merged;
+}
+
 //  A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
 // Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
 
@@ -251,4 +278,40 @@ int main() {
             oldCap = u.getCapacity();
         }
     }
+}
+
+//Main de prueba ejercicio 5
+int main(){
+    Vector<int> a, b;
+    // Create first sorted vector
+    for(int i = 0; i < 14 ; i++){
+        a.push_back(1 + i*2);
+    }
+    // Create second sorted vector
+    for(int i = 0; i < 14 ; i++){
+        b.push_back(2 + i*2);
+    }
+    Vector<int> merged = mergeSorted(a, b);
+    cout << "Vector merged: ";
+    for (int i = 0; i < merged.sizeV(); i++) {
+        cout << merged[i] << " ";
+    }
+    cout << endl;
+    return 0;
+}
+//Main de prueba ejercicio 5 con entrada del usuario (Salvedad: se debe ingresar los numeros ordenados)
+int main(){
+    int n1, n2;
+    cout << "Tamano vector A: "; cin >> n1;
+    Vector<int> a;
+    cout << "Ingrese " << n1 << " numeros ORDENADOS: ";
+    for (int i = 0; i < n1; i++) { int x; cin >> x; a.push_back(x); }
+    cout << "Tamano vector B: "; cin >> n2;
+    Vector<int> b;
+    cout << "Ingrese " << n2 << " numeros ORDENADOS: ";
+    for (int i = 0; i < n2; i++) { int x; cin >> x; b.push_back(x); }
+    Vector<int> merged = mergeSorted(a, b);
+    cout << "Merge: ";
+    for (int i = 0; i < merged.sizeV(); i++) cout << merged[i] << " ";
+    cout << endl;
 }
