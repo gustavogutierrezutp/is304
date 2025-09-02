@@ -3,7 +3,6 @@
 
 using namespace std;
 
-template typedef<>
 class LAvector
 {
 private:
@@ -187,7 +186,7 @@ void printVector(const LAvector &v)
     cout << endl;
 }
 
-class Matrix
+/*class Matrix
 {
 private:
     LAvector components;
@@ -247,10 +246,11 @@ public:
         return r;
     }
 };
+*/
 
 int main()
 {
-    /*LAvector v;
+    LAvector v;
     LAvector w;
     v.push_back(2);
     v.push_back(3);
@@ -274,10 +274,10 @@ int main()
     mag = v.magnitude();
     cout << "The magnitude of V is " << mag << endl;
     LAvector norm_v(v.normalize());
-    cout << "The normalized vector of V is ";
-    printVector(norm_v);*/
-    
-    Matrix a;
+    cout << "The vector V normalized is ";
+    printVector(norm_v);
+
+    /*Matrix a;
     LAvector f;
     f.push_back(1);
     f.push_back(2);
@@ -288,5 +288,5 @@ int main()
      printVector(g);
     a.push_vector(f);
     a.push_vector(g);
-    Matrix b(a.multiply_scalar(2));
+    Matrix b(a.multiply_scalar(2));*/
 }
