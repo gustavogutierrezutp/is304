@@ -186,71 +186,72 @@ void printVector(const LAvector &v)
     cout << endl;
 }
 
-/*class Matrix
+class Matrix
 {
 private:
-    LAvector components;
+    LAvector *columns;
+    int occupied_cols;
     int n_cols;
     int n_rows;
 
 public:
-    Matrix()
+    Matrix(const int cols, const int rows = 0)
     {
-        n_cols = 0;
-        n_rows = 0;
+        columns = new LAvector[cols];
+        occupied_cols = 0;
+        n_cols = cols;
+        n_rows = rows;
     }
 
-    Matrix(const Matrix &other)
-    {
-        for (int i = 0; i < n_cols; i++)
-        {
-            components.push_back(other.components[i]);
-        }
+    Matrix(const Matrix &other){
+        columns = new LAvector[other.n_cols];
+        occupied_cols = other.occupied_cols;
         n_cols = other.n_cols;
         n_rows = other.n_rows;
+        for (int i = 0; i < n_cols; i++){
+            columns[i] = other.columns[i];
+        }
     }
 
-    void push_vector(const LAvector &v){
-        if (n_cols == 0){
-            components.push_back(v);
-            n_rows = v.size();
-            n_cols ++;     
-        } else if (v.size() != n_rows){
-            throw runtime_error("Vectors must be of the same dimension");
-        }        
-    }
-
-    void rows() const {
+    int rows() const
+    {
         return n_rows;
     }
 
-    void columns() const {
+    int cols() const
+    {
         return n_cols;
     }
 
-    LAvector multiply_vector(){
-
-    }
-
-    LAvector operator[](const int index) const {
-        return components[index];
-    }
-
-    Matrix multiply_scalar(const double s){
-        Matrix r;
-        for (int i = 0; i < n_cols; i++){
-            for (int j = 0; j < n_rows; j++){
-                r[i][j] = components[i][j] * s;
-            }
+    void add_vector(const LAvector &v)
+    {
+        if (occupied_cols == n_cols)
+        {
+            cout << n_cols;
+            cout << occupied_cols;
+            throw runtime_error("Number of vectors exceded");
         }
-        return r;
+        if (n_rows == 0)
+        {
+            columns[0] = v;
+            n_rows = v.size();
+            occupied_cols++;
+            return;
+        }
+        else if (v.size() != n_rows)
+        {
+            throw runtime_error("Vectors dimension must be the same");
+        }
+        columns[occupied_cols] = v;
+        occupied_cols++;
+        return;
     }
+
 };
-*/
 
 int main()
 {
-    LAvector v;
+    /*LAvector v;
     LAvector w;
     v.push_back(2);
     v.push_back(3);
@@ -276,8 +277,8 @@ int main()
     LAvector norm_v(v.normalize());
     cout << "The vector V normalized is ";
     printVector(norm_v);
-
-    /*Matrix a;
+    */
+    Matrix a(2);
     LAvector f;
     f.push_back(1);
     f.push_back(2);
@@ -285,8 +286,7 @@ int main()
     LAvector g;
     g.push_back(2);
     g.push_back(4);
-     printVector(g);
-    a.push_vector(f);
-    a.push_vector(g);
-    Matrix b(a.multiply_scalar(2));*/
+    printVector(g);
+    a.add_vector(f);
+    a.add_vector(g);
 }
