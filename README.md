@@ -439,14 +439,191 @@ Create a `Matrix` class that uses your `LAVector` class internally to store rows
 - Implement `transpose()` method
 - **AI Connection**: Use this to implement a simple linear transformation for 2D point rotation
 
-**Test Case**: Rotate a set of 2D points by 45 degrees using matrix multiplication.
+**Complete Matrix Class(includes linear transformation function):**
+```cpp
+class Matrix
+{
+    private:
 
-### Exercise 3: Neural Network Layer Implementation
-Use your Vector class to implement a simple neural network layer:
-- Create a `NeuralLayer` class that stores weights as a Vector of Vectors
-- Implement forward propagation: output = activation(weights * input + bias)
-- Use the sigmoid activation function: σ(x) = 1/(1 + e^(-x))
-- **Challenge**: Implement ReLU activation as an alternative
+    LA_Vector* datos;
+    unsigned int filas;
+    unsigned int columnas;
 
-**Test Case**: Create a layer with 3 inputs, 2 outputs, and process a sample input vector.
 
+    public:
+
+    Matrix(unsigned int f, unsigned int c) 
+    {
+        filas = f;
+        columnas = c;
+        datos = new LA_Vector[filas];
+
+        for (unsigned int i = 0; i < filas; i++) 
+        {
+            float* ceros = new float[columnas];
+
+            for (unsigned int j = 0; j < columnas; j++) 
+            {
+                ceros[j] = 0.0;
+            }
+
+            datos[i] = LA_Vector(ceros, columnas);
+            delete[] ceros;
+        }
+
+
+    }
+
+    ~Matrix() 
+    {
+        delete[] datos;
+    }
+
+    float& at(unsigned int i, unsigned int j) 
+    {
+        if (i >= filas || j >= columnas) 
+        {
+            throw out_of_range("Index out of range");
+        }   
+
+        return datos[i].at(j);
+    }
+
+    float& at(unsigned int i, unsigned int j) const
+    {
+        if (i >= filas || j >= columnas) 
+        {
+            throw out_of_range("Index out of range");
+        }   
+
+        return datos[i].at(j);
+    }
+
+    LA_Vector &operator[](unsigned int i) 
+    { 
+        return datos[i]; 
+    }
+
+    LA_Vector &operator[](unsigned int i) const 
+    { 
+        return datos[i]; 
+    }
+
+    unsigned int num_filas() const
+    {
+        return filas;
+    }
+
+    unsigned int num_columnas() const
+    {
+        return columnas;
+    }
+
+
+    void printm() const  
+    {
+        for (int i = 0; i < filas; i++) 
+        {
+            cout << "[ ";
+        
+            for (int j = 0; j < columnas; j++) 
+            {
+                cout << datos[i].at(j);
+
+                if (j != columnas - 1) 
+                    cout << " , ";
+            }
+            cout << " ]" << endl;
+        }
+    }
+
+    LA_Vector Matrix_Vector_Mult(const LA_Vector& vector) const
+    {
+        float array_aux[filas];
+
+        if(vector.ndimensiones() != columnas)
+        {
+            throw out_of_range("Invalid number of dimension");
+        }
+
+        else
+        {
+
+            for (int i=0; i<filas; i++)
+            {
+                array_aux[i] = datos[i].dot_product(vector);   
+            }
+
+        }
+        
+        LA_Vector result(array_aux,filas);
+        return result;
+    }
+
+    Matrix operator+(const Matrix& matriz2)
+    {   
+        
+        Matrix resultado(filas,columnas);
+
+        if (matriz2.num_columnas() != columnas || matriz2.num_filas() != filas)
+        {
+            throw out_of_range("Invalid dimensions");
+        }
+
+        else
+        {
+            for (int i=0; i<filas; i++)
+            {
+                resultado[i] = datos[i] + matriz2[i];
+            }
+        }
+
+        return resultado;
+    }
+
+    Matrix transpose() const
+    {
+        Matrix transpuesta(columnas,filas);
+
+        for (int i=0; i<filas; i++)
+        {
+            for (int j=0; j<columnas; j++)
+            {
+                transpuesta[j].at(i) = datos[i].at(j);
+            }
+        }
+
+        return transpuesta;
+    }
+
+
+
+};
+
+
+LA_Vector simple_linear_2d_transformation(const LA_Vector& vector, float angle)
+    {   
+        Matrix matriz_rotacion(2,2);
+
+        if (vector.ndimensiones() != 2)
+        {
+            throw out_of_range("Invalid dimensions. Make sure the vector has only 2 dimensions");
+        }
+
+        
+
+        else
+        {
+            matriz_rotacion[0][0] = cos(angle);    matriz_rotacion[0][1] = sin(angle) * -1;
+            matriz_rotacion[1][0] = sin(angle);    matriz_rotacion[1][1] = cos(angle);
+        }
+
+        LA_Vector result = matriz_rotacion.Matrix_Vector_Mult(vector);
+
+        return result;
+
+    }
+```
+
+### Notes:
+I'm aware that the matrix implementation is missing some operators, which I skipped since my main focus was on covering the exercise requirements. In addition, I was not able to properly implement point 3 (Neural Network), so I decided not to include it in this homework.
