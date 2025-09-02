@@ -213,6 +213,8 @@ public:
         }
     }
 
+
+
     int rows() const
     {
         return n_rows;
@@ -227,8 +229,6 @@ public:
     {
         if (occupied_cols == n_cols)
         {
-            cout << n_cols;
-            cout << occupied_cols;
             throw runtime_error("Number of vectors exceded");
         }
         if (n_rows == 0)
@@ -247,11 +247,27 @@ public:
         return;
     }
 
+    LAvector &operator[](const unsigned int index){
+        return columns[index];
+    }
+
+    Matrix scalar_multiplication(const double scalar) {
+        Matrix x(n_cols, n_rows);
+        for (int i = 0; i < n_cols; i++){
+            for (int j = 0; j < n_rows; j++){
+                double n;
+                n = columns[i][j] * scalar;
+                x[i].push_back(n);
+            }
+        }
+        return x;
+    }
+
 };
 
 int main()
 {
-    /*LAvector v;
+    LAvector v;
     LAvector w;
     v.push_back(2);
     v.push_back(3);
@@ -277,7 +293,7 @@ int main()
     LAvector norm_v(v.normalize());
     cout << "The vector V normalized is ";
     printVector(norm_v);
-    */
+    
     Matrix a(2);
     LAvector f;
     f.push_back(1);
@@ -289,4 +305,5 @@ int main()
     printVector(g);
     a.add_vector(f);
     a.add_vector(g);
+    Matrix b(a.scalar_multiplication(2));
 }

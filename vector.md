@@ -82,7 +82,7 @@ algebra (not a a data structure that stores elements):
 
 **Test Case**: Create two 3D vectors representing points in space and perform all operations.
 
-*Answer at line 6 in lavector.cpp and test at line 251*
+*Answer at line 6 in lavector.cpp and test at line 268*
 
 ### Exercise 2: Matrix-Vector Multiplication Engine
 Create a `Matrix` class that uses your `LAVector` class internally to store rows:
@@ -90,7 +90,7 @@ Create a `Matrix` class that uses your `LAVector` class internally to store rows
 - Add methods for matrix addition and scalar multiplication
 - Implement `transpose()` method
 - **AI Connection**: Use this to implement a simple linear transformation for 2D point rotation
-
+*Answer 2 at line 297*
 **Test Case**: Rotate a set of 2D points by 45 degrees using matrix multiplication.
 
 ### Exercise 3: Neural Network Layer Implementation
