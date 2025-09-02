@@ -4,6 +4,19 @@ These exercises will help you practice using the custom `Vector<T>` implementati
 
 ---
 
+## exercises (Here is the code for the exercises)
+├── 1_sum_of_elements/
+│   └── 1sum.cpp
+├── 2_reverse_vector/
+│   └── 2reverse.cpp
+├── 3_filter/
+│   └── 3filter.cpp
+├── 4_dynamic_growth/
+│   └── 4dynamic.cpp
+└── 5_merge_two/
+    └── 5merge.cpp
+
+
 ## Vectors as data structures
 
 ### 1. **Sum of Elements**
