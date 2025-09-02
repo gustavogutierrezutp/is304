@@ -2,7 +2,7 @@
 Names: Juan Jose Posada Arboleda and Juan Jose Mendez Lozano
 Teacher: Gustavo Adolfo Gutierrez
 Course: Data Structures 2025-2
-Date: 08/31/2025
+Date: 09/01/2025
 Description: This code implements a Vector class in C++ with basic functionalities like size, push_back, and element access.
     It also include fifth functions that operate on Vector<int>: Sumatory of elements, Reverse the vector, Filter even elements, dynamic growth test and merge two sorted vectors.
 */
@@ -183,9 +183,11 @@ Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b) {
     return merged;
 }
 
-//  A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
-// Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
-
+/* A continuacion se presentan dos versiones del main, una con valores predeterminados y otra con entrada del usuario
+ Esto con el fin de poder probar la funcion sumVector de ambas maneras ya que no se especifico como debia ser la entrada
+ Se comenta cada uno de los mains para evitar conflictos al momento de compilar y ejecutar el programa, entonces quitar los comentarios para poder probar cada uno
+*/
+/*
 // Main de prueba ejercicio 1 con valores predeterminados
 int main(){
     Vector<int> u;
@@ -206,7 +208,8 @@ int main(){
     }
     cout << "La suma es: " << sumVector(v) << endl;
 }
-
+*/
+/*
 //Main de prueba ejercicio 2 con valores predeterminados
 int main(){
     Vector<int> l;
@@ -235,7 +238,8 @@ int main(){
     for (int i = 0; i < r.sizeV(); i++) cout << r[i] << " ";
     cout << endl;
 }
-
+*/
+/*
 //Main de prueba ejercicio 3 con valores predeterminados
 int main(){
     Vector<int> u;
@@ -263,6 +267,8 @@ int main(){
     for (int i = 0; i < pares.sizeV(); i++) cout << pares[i] << " ";
     cout << endl;
 }
+*/
+/*
 //Main de prueba ejercicio 4 con valores predeterminados 
 // (No se puede hacer por la entrada del usuario ya que el ejercicio es mas como un test de impresion de la capacidad dinamica del vector)
 // Este ejercicio es un crecimiento dinamico del vector y se imprime su tamaño y capacidad cada vez que esta cambia
@@ -279,7 +285,8 @@ int main() {
         }
     }
 }
-
+*/
+/*
 //Main de prueba ejercicio 5
 int main(){
     Vector<int> a, b;
@@ -315,3 +322,4 @@ int main(){
     for (int i = 0; i < merged.sizeV(); i++) cout << merged[i] << " ";
     cout << endl;
 }
+*/
