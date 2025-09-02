@@ -13,6 +13,22 @@ Write a function that takes a `Vector<int>` and returns the sum of all elements.
 ```cpp
 int sumVector(const Vector<int>& v);
 ```
+
+**Solution**
+```cpp
+int sumVector(const Vector<int>& v)
+  {
+    int sum = 0;
+    for (unsigned int i = 0; i < v.size(); i++)
+    {
+        sum+=v[i];
+    }
+
+    return sum;
+  }
+```
+
+
 ### 2. Reverse a Vector
 
 Write a function that takes a Vector<int> and returns a new Vector<int> with elements in reverse order.
@@ -22,6 +38,24 @@ Write a function that takes a Vector<int> and returns a new Vector<int> with ele
 Vector<int> reverseVector(const Vector<int>& v);
 ```
 
+**Solution**
+```cpp
+Vector<int> reverseVector(const Vector<int>& v)
+{
+    Vector<int> reversed(v.size()); 
+    
+    for (unsigned int i=0; i<v.size(); i++)
+    {
+        reversed.push_back(v[v.size() - i - 1]);
+    }
+
+    return reversed;
+    
+}
+```
+
+
+
 ### 3. **Filter Even Numbers**
 
 Write a function that takes a `Vector<int>` and returns a new vector containing only the even numbers.
@@ -30,6 +64,25 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 ```cpp
 Vector<int> filterEven(const Vector<int>& v);
 ```
+
+**Solution**
+```cpp
+Vector<int> filterEven(const Vector<int>& v)
+{
+    Vector<int> evens;
+
+    for (unsigned int i = 0; i < v.size(); i++)
+    {
+        if (v[i] % 2 == 0)
+        {
+            evens.push_back(v[i]);
+        }
+    }
+
+    return evens;
+}
+```
+
 
 ### 4. Dynamic Growth Test
 
@@ -49,6 +102,31 @@ Size: 11, Capacity: 15
 ...
 ```
 
+**Solution**
+```cpp
+void Dynamic_Growth_Test()
+{
+    Vector<int> test_v;
+    unsigned int current_capacity = test_v.get_capacity();
+    
+    for (unsigned int i=0; i<1000; i++)
+    {
+        test_v.push_back(i);
+
+        if (test_v.get_capacity() != current_capacity)
+        {
+            cout << "Capacity: " << test_v.get_capacity() << endl;
+            cout << "Size: " << test_v.size() << endl;
+            current_capacity = test_v.get_capacity();
+            cout << endl;
+        }
+
+
+    }
+}
+```
+
+
 ### 5. Merge Two Sorted Vectors
 
 Implement a function that merges two sorted Vector<int> into one sorted vector (like the merge step of MergeSort).
@@ -57,6 +135,59 @@ Implement a function that merges two sorted Vector<int> into one sorted vector (
 ```cpp
 Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b);
 ```
+
+**Solution**
+```cpp
+Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b)
+{
+    Vector<int> merged(a.size() + b.size());
+    unsigned int i = 0;
+    unsigned int j = 0;
+
+    while (i<a.size() and j<b.size())
+    {
+
+        if (a[i] < b[j])
+        {
+            merged.push_back(a[i]);
+            i++;
+        }
+            
+        else
+        {
+            merged.push_back(b[j]);
+            j++;
+        }
+        
+    }
+
+
+    while(j<b.size())
+        {
+            merged.push_back(b[j]);
+            j++;
+        }
+    
+
+  
+    while(i<a.size())
+        {
+            merged.push_back(a[i]);
+            i++;
+        }
+       
+
+    
+    return merged;
+}
+
+
+
+```
+
+
+Feel free to check out the "vectors.cpp" file in case you want to test the methods or just to see the full implementation.
+
 
 ## Vectors in the context of linear algebra
 
