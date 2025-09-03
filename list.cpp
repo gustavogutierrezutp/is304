@@ -89,6 +89,72 @@ public:
     }
     sz++;
   }
+
+  void pop_back() {
+    /** your implementation here */
+  }
+  void push_front( const T& val) {
+    /** your implementation here */
+  }
+  void pop_front() {
+    /** your implementation here */
+  }
+  T& front() {
+    /** your implementation here */
+  }
+   const T& front() const {
+    /** your implementation here */
+  }
+  T& back() {
+    /** your implementation here */
+  }
+   const T& back() const {
+    /** your implementation here */
+  }
+  unsigned int size() const {
+    /** your implementation here */
+  }
+  void clear() {
+    /** your implementation here */
+  }
+  const T& at(unsigned int index) const {
+    /** your implementation here */
+  }
+  T& at(unsigned int index) {
+    /** your implementation here */
+  }
+  const T& operator[](unsigned int index) const {
+    /** your implementation here */
+  }
+  T& operator[](unsigned int index) {
+    /** your implementation here */
+  }
+  void insert(unsigned int index, const T& val) {
+    /** your implementation here */
+  }
+  void erase(unsigned int index) {
+    /** your implementation here */
+  }
+  void print() const {
+    Node *temp = first;
+    while (temp != nullptr) {
+      cout << temp->data << " ";
+      temp = temp->getNext();
+    }
+    cout << endl; 
+  }
+  void reverse() {
+    /** your implementation here */   
+  }
+  List(const List &other) {
+    /** your implementation here */
+  }
+  void push_back(const List &other) {
+    /** your implementation here */
+  }
+  void push_front(const List &other) {
+    /** your implementation here */
+  }
 };
 
 /**
