@@ -78,10 +78,13 @@ template <typename T> class Vector {
 private:
   // Stores the elements of the vector
   T *storage;
+  
   // Current number of elements in the vector
   unsigned int sz;
+  
   // Maximum number of elements that storage can hold
   unsigned int capacity;
+  
   // Policy for resizing the vector
   double policy;
 
@@ -94,7 +97,7 @@ public:
   }
 
   Vector(unsigned int c, double p = 1.5) {
-    storage = new T[c];
+    storage = new T[c];   
     sz = 0;
     capacity = c;
     policy = p;
@@ -184,6 +187,8 @@ public:
     }
     return storage[index];
   }
+
+  bool empty() const { return sz == 0; }
 };
 
 void printVector(const Vector<int> &v) {

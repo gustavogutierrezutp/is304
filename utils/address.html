@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Hex Generator</title>
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for a clean look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    /* Use Inter as the default font */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Use Roboto Mono for the code/hex output */
+    .font-mono {
+      font-family: 'Roboto Mono', monospace;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 dark:bg-slate-900 flex items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transition-all">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">Hex Generator</h1>
+      <p class="text-slate-500 dark:text-slate-400 mb-8">Create a random hexadecimal value.</p>
+    </div>
+
+    <!-- Input Section -->
+    <div class="mb-6">
+      <label for="charCount" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Number of
+        Characters:</label>
+      <input type="number" id="charCount" value="4" min="1" max="256"
+        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-shadow">
+    </div>
+
+    <!-- Button -->
+    <button id="generateBtn"
+      class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-indigo-500/50">
+      Generate
+    </button>
+
+    <!-- Result Display -->
+    <div class="mt-8">
+      <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Generated Value:</p>
+      <div id="result-container"
+        class="relative bg-slate-900 dark:bg-black p-4 rounded-lg text-white font-mono text-lg break-all flex items-center justify-between cursor-pointer">
+        <span id="hexValue"></span>
+        <button id="copyBtn" title="Copy to clipboard"
+          class="absolute top-2 right-2 p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-md transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+        <span id="copyFeedback"
+          class="absolute top-1 right-10 px-2 py-0.5 text-xs bg-green-500 text-white rounded-md opacity-0 transition-opacity duration-300">Copied!</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get references to all necessary HTML elements
+    const charCountInput = document.getElementById('charCount');
+    const generateBtn = document.getElementById('generateBtn');
+    const hexValueSpan = document.getElementById('hexValue');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyFeedback = document.getElementById('copyFeedback');
+    const resultContainer = document.getElementById('result-container');
+
+    /**
+     * Generates a random hexadecimal string of a given length.
+     * @param {number} length - The number of hex characters to generate.
+     * @returns {string} The random hex string.
+     */
+    function generateRandomHex(length) {
+      // Using crypto.getRandomValues for more secure random numbers
+      const randomBytes = new Uint8Array(Math.ceil(length / 2));
+      window.crypto.getRandomValues(randomBytes);
+
+      // Convert byte array to a hex string and slice to the desired length
+      return Array.from(randomBytes)
+        .map(byte => byte.toString(16).padStart(2, '0'))
+        .join('')
+        .slice(0, length);
+    }
+
+    /**
+     * Handles the generation and display of the new hex value.
+     */
+    function displayNewHexValue() {
+      // Get the desired length from the input field, ensuring it's a valid integer
+      const length = parseInt(charCountInput.value, 10);
+
+      // Validate the length
+      if (isNaN(length) || length < 1) {
+        hexValueSpan.textContent = 'Invalid length';
+        return;
+      }
+
+      // Generate the random hex part
+      const randomHex = generateRandomHex(length);
+
+      // Prepend "0x" and display it
+      hexValueSpan.textContent = `0x${randomHex}`;
+    }
+
+    /**
+     * Handles copying the hex value to the clipboard.
+     */
+    function copyToClipboard() {
+      const textToCopy = hexValueSpan.textContent;
+      if (!textToCopy) return;
+
+      // Using a temporary textarea element for robust copying
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        // This is the modern way but execCommand is a fallback
+        document.execCommand('copy');
+        // Show feedback to the user
+        copyFeedback.style.opacity = '1';
+        setTimeout(() => {
+          copyFeedback.style.opacity = '0';
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+      document.body.removeChild(textArea);
+    }
+
+
+    // --- Event Listeners ---
+
+    // Generate a new value when the button is clicked
+    generateBtn.addEventListener('click', displayNewHexValue);
+
+    // Copy the value when the copy icon is clicked
+    copyBtn.addEventListener('click', copyToClipboard);
+
+    // Also copy when the result container is clicked
+    resultContainer.addEventListener('click', copyToClipboard);
+
+    // Allow pressing 'Enter' in the input field to generate a new value
+    charCountInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        displayNewHexValue();
+      }
+    });
+
+    // Generate an initial value when the page first loads
+    document.addEventListener('DOMContentLoaded', displayNewHexValue);
+  </script>
+
+</body>
+
+</html>
