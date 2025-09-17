@@ -146,13 +146,13 @@ public:
   void reverse() {
     /** your implementation here */   
   }
-  List(const List &other) {
+  List(const List<T> &other) {
     /** your implementation here */
   }
-  void push_back(const List &other) {
+  void push_back(const List<T> &other) {
     /** your implementation here */
   }
-  void push_front(const List &other) {
+  void push_front(const List<T> &other) {
     /** your implementation here */
   }
 };
