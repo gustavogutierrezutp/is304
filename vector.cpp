@@ -1,7 +1,79 @@
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
+//### 1. **Sum of Elements**
+
+// ── Variables globales ───────────────────────────────────────────────────────
+int n;                          // Cantidad de elementos que el usuario ingresará
+int valor;                      // Variable temporal para leer cada número
+vector<int> u;                  // Vector global donde se guardan los números ingresados
+
+// ── Función que suma los elementos de un vector ─────────────────────────────
+int sumarvector(const vector<int> &v) { // Recibe el vector por referencia constante (no lo copia)
+    int suma = 0;                  // Inicializa el acumulador en 0
+    for (size_t i = 0; i < v.size(); ++i) { // Recorre índices desde 0 hasta v.size()-1 (size_t evita warnings)
+        suma += v[i];              // Suma el elemento actual al acumulador
+    }
+    return suma;                   // Devuelve la suma total
+}
+
+// ### 2. Reverse a Vector
+
+// ── Función que devuelve el vector invertido ────────────────────────────────
+vector<int> reverseVector(const vector<int>& v) { 
+    vector<int> reversed;  
+    for (int i = (int)v.size() - 1; i >= 0; --i) {
+        reversed.push_back(v[i]); // Insertamos el elemento v[i] al final de 'reversed'
+    }
+    return reversed;              // Devolvemos el vector invertido
+}
+
+// ### 3. **Filter Even Numbers**
+
+vector<int> filterEven(const vector<int>& v) {
+    vector<int> result;
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (v[i] % 2 == 0) {
+            result.push_back(v[i]);
+        }
+    }
+    return result;
+}
+
+// ── Función principal ───────────────────────────────────────────────────────
+int main() {
+    cout << "Ingrese la cantidad de elementos: "; // Pide al usuario cuántos números ingresará
+    cin >> n;                                     // Lee la cantidad y la guarda en la variable global 'n'
+
+    for (int i = 0; i < n; ++i) {                 // Bucle para leer 'n' valores
+        cout << "Ingrese un valor: ";             // Pide un valor
+        cin >> valor;                             // Lee el valor en la variable global 'valor'
+        u.push_back(valor);                       // Agrega el valor al vector global 'u'
+    }
+
+    int suma = sumarvector(u);                    // Llama a la función que suma los elementos de 'u'
+    cout << "La suma de los elementos es: " << suma << endl; // Muestra la suma por pantalla
+
+    vector<int> invertido = reverseVector(u);    // Llama a la función que invierte el vector 'u'
+
+    cout << "Vector invertido: ";                // Mensaje antes de imprimir el vector invertido
+    for (size_t i = 0; i < invertido.size(); ++i) { // Recorre el vector invertido para imprimir sus elementos
+        cout << invertido[i] << " ";             // Imprime cada elemento seguido de un espacio
+    }
+    cout << endl;
+
+    cout << "Elementos pares: ";                // Mensaje antes de imprimir los elementos pares
+    vector<int> pares = filterEven(u);         // Filtra los elementos pares
+    for (size_t i = 0; i < pares.size(); ++i) { // Recorre el vector de elementos pares
+        cout << pares[i] << " ";                // Imprime cada elemento seguido de un espacio
+    }
+    cout << endl;// Salto de línea final
+
+    return 0;                                     // Fin del programa (0 = ejecución correcta)
+}
+
+/*
 template <typename T> class Vector {
 private:
   // Stores the elements of the vector
@@ -147,4 +219,4 @@ int main() {
 
   printVector(u);
   return 0;
-}
+}*/
