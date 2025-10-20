@@ -59,3 +59,17 @@ void ArbolBinario::insertar(int k, int v) {
     return nullptr;
 }
 
+void ArbolBinario::inorderTraversal() {
+    inorderTraversal(root);
+    cout << endl;
+}
+
+// 🔹 Función privada: recorre el árbol recursivamente
+void ArbolBinario::inorderTraversal(node* nodo) {
+    if (nodo != nullptr) {
+        inorderTraversal(nodo->left);       // visitar subárbol izquierdo
+        cout << nodo->key << " ";           // visitar el nodo actual
+        inorderTraversal(nodo->right);      // visitar subárbol derecho
+    }
+}
+

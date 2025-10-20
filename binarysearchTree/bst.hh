@@ -33,6 +33,8 @@ private:
         }
     }
 
+    void inorderTraversal(node* nodo); 
+
 public:
     ArbolBinario() : root(nullptr), size(0) {} // Constructor del árbol
 
@@ -42,14 +44,11 @@ public:
         root = nullptr;   // por seguridad
     }
 
-    void insertar(int k, int v);
+    void insertar(int k, int v);//funcion para insertar un nodo
 
     node* buscar(int k);
 
-    // Aquí luego puedes agregar más funciones:
-    // void insertar(int k, int v);
-    // void buscar(int k);
-    // void eliminar(int k);
+     void inorderTraversal();
 };
 
 #endif // __BST_HH__
