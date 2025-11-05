@@ -1,7 +1,4 @@
 #include "treap.hh"
-#include <cstdlib>
-#include <ctime>
-
 // ---------------------------
 // CONSTRUCTOR DEL NODO
 // ---------------------------
