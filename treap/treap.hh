@@ -23,7 +23,7 @@ class Treap {
 private:
     Node* root;     // Raíz del Treap
 
-    // Funciones auxiliares (privadas)
+    // Funciones auxiliares
     Node* rotateRight(Node* y);  // Rotación derecha
     Node* rotateLeft(Node* x);   // Rotación izquierda
     Node* insert(Node* root, int key);   // Inserción recursiva
@@ -32,7 +32,7 @@ public:
     Treap(); 
     void insert(int key);
     
-};// Constructor
+};
 
 
 #endif
