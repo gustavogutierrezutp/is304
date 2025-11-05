@@ -1,0 +1,208 @@
+---
+title: "Estructura de datos treap"
+author: "Gustavo Gutiérres-Sabogal"
+bibliography: references.bib
+csl: ieee.csl
+filters:
+  - quarto-kroki
+---
+
+## Introducción
+
+Un treap @aragon1989randomized es una estructura de datos que combina las
+propiedades de un árbol binario de búsqueda (BST) y un heap. El nombre "treap"
+proviene de la fusión de las palabras "tree" (árbol) y "heap" (montículo).
+
+El treap resuelve un problema importante de los árboles binarios de búsqueda
+tradicionales: la degeneración. En un BST normal, si insertamos elementos en
+orden, el árbol se convierte en una lista enlazada, degradando las operaciones
+de $O(\log n)$ a $O(n)$.
+
+Al asignar prioridades aleatorias a cada nodo, el treap se mantiene balanceado
+con __alta probabilidad__, garantizando operaciones de búsqueda, inserción y
+eliminación en tiempo esperado $O(\log n)$.
+
+Los treaps son una extensión probabilística de los árboles binarios de búsqueda.
+Como tal, implementan los mismos conceptos matemáticos: conjunto, función.
+Cuando un BST implementa el concepto de conjunto, en sus nodos solo se almacena
+un dato: el elemento del conjunto.
+
+```{dot}
+digraph D {
+  graph [ordering="out", ranksep=0.7, nodesep=0.5];
+  node [shape=circle, style=filled, fillcolor=lightblue, 
+        fontname="Arial", fontsize=14, width=0.6, fixedsize=true];
+  edge [color=black, penwidth=1.5];
+ 
+  50; 30; 70; 20; 40; 60; 80; 10; 25; 65;
+
+  null1 [style=invis, width="1cm", label=""];
+  null2 [style=invis, width=0, label=""];
+  null3 [style=invis, width=0, label=""];
+  null4 [style=invis, width=0, label=""];
+  null5 [style=invis, width=0, label=""];
+
+  50 -> 30;
+  50 -> null1[style=invis];
+  50 -> 70;
+
+  30 -> 20;
+  30 -> null2[style=invis];
+  30 -> 40;
+
+  70 -> 60;
+  70 -> null3[style=invis];
+  70 -> 80;
+
+  20 -> 10;
+  20 -> 25;
+  
+  60 -> 65;
+  60 -> null4[style=invis];
+  60 -> null5[style=invis];
+    
+  {rank=same; 30; 70;}
+  {rank=same; 20; 40; 60; 80;}
+  {rank=same; 10; 25; 65;}  
+}
+```
+
+Si en lugar del concepto de conjunto se quisiera representar una relación de
+asociación el árbol tendría dos datos por cada nivel. Uno de esos datos se
+denomina la llave y el otro es al valor asociado a esa llave. En la siguiente
+figura la llave es elemento que se presenta en la parte superior de cada nodo y
+el valor asociado se presenta debajo. Note que pueden haber valores repetidos:
+nodo con llave 50 y nodo con llave 40 ambos tienen un valor asociado de A. Sin
+embargo las llaves deben ser únicas en el árbol.
+
+```{dot}
+digraph D {
+  graph [ordering="out", ranksep=0.7, nodesep=0.5];
+  node [shape=circle, style=filled, fillcolor=lightblue, 
+        fontname="Arial", fontsize=14, width=0.6, fixedsize=true];
+  edge [color=black, penwidth=1.5];
+ 
+  50[label=<<b>50</b><br/>A>]; 
+  30[label=<<b>30</b><br/>S>]; 
+  70[label=<<b>70</b><br/>T>]; 
+  20[label=<<b>20</b><br/>V>]; 
+  40[label=<<b>40</b><br/>A>]; 
+  60[label=<<b>60</b><br/>N>]; 
+  80[label=<<b>80</b><br/>Q>]; 
+  10[label=<<b>10</b><br/>P>]; 
+  25[label=<<b>25</b><br/>Y>]; 
+  65[label=<<b>65</b><br/>Z>];
+
+
+  null1 [style=invis, width="1cm", label=""];
+  null2 [style=invis, width=0, label=""];
+  null3 [style=invis, width=0, label=""];
+  null4 [style=invis, width=0, label=""];
+  null5 [style=invis, width=0, label=""];
+
+  50 -> 30;
+  50 -> null1[style=invis];
+  50 -> 70;
+
+  30 -> 20;
+  30 -> null2[style=invis];
+  30 -> 40;
+
+  70 -> 60;
+  70 -> null3[style=invis];
+  70 -> 80;
+
+  20 -> 10;
+  20 -> 25;
+  
+  60 -> 65;
+  60 -> null4[style=invis];
+  60 -> null5[style=invis];
+    
+  {rank=same; 30; 70;}
+  {rank=same; 20; 40; 60; 80;}
+  {rank=same; 10; 25; 65;}  
+}
+```
+
+Lo anterior tiene como consecuencia que puedan existir diferentes estructuras de
+datos que internamente usan árboles binarios de búsqueda. Por ejemplo, en el
+caso de la libraría estándar de C++ los tipos `set`y `map` usan internamente
+variantes de BSTs.
+
+```c++
+#include <map>
+#include <set>
+
+using namespace std;
+
+int main() {
+  // Declares an association from strings to strings.
+  map<string, string> a;
+  // Declares a set of strings
+  set<string> b;
+}
+```
+
+## Treap
+
+El objetivo de la estructura de datos treap es solucionar el problema clásico
+que tienen los árboles BST: cuando se realiza la inserción de elementos
+ordenados el árbol pierde su balance. La consecuencia de lo anterior es que las
+operaciones de búsqueda, inserción y borrado de elementos incrementan su tiempo
+de ejecución.
+
+Existen diferentes estructuras de datos que tratan de solucionar el mismo
+problema. Por ejemplo, los árboles rojo-negro y los árboles AVL. Sin embargo la
+solución que cada una de estas estructuras le da al problema es difícil de
+implementar.
+
+La solución de los treaps es elegante y simple: unir dos estructuras de datos,
+un BST y un heap. Formalmente, un treap $T$ es un árbol binario donde cada nodo
+$v$ contiene un par ordenado $(k_v, p_v)$ tal que:
+
+1. Propiedad del BST: para todo nodo $v$:
+   - Para cada nodo $u$ en los nodos del sub-árbol _izquierdo_ de $v$ se cumple:
+     $u_k < v_k$.
+   - Para cada nodo $u$ en los nodos del sub-árbol _derecho_ de $v$ se cumple:
+     $v_k < u_k$.
+2. Propiedad del MaxHeap: para todo nodo $v$ con padre $u$: $p_v \leq p_u$
+
+La definición anterior es para treaps que implementan la noción de conjunto.
+Cada $k_v$ es uno de los elementos del conjunto. Para el caso de la noción de
+asociación cada nodo $v$ del treap tiene la forma $(k_v, v_v, p_v )$. El
+elemento adicional $v_v$ es el valor asociado a la llave $k_v$. Las propiedades
+siguen siendo las mismas y este valor no interviene en ellas.
+
+
+## Ejercicios
+
+1. Realice una revisión bibliogŕafica de la estructura de datos treap. Para ello
+   puede comenzar (pero no limitarse) con @aragon1989randomized y
+   @seidel1996randomized. Es importante que realice una lectura crítica de los
+   documentos. Es libre (como siempre) de utilizar herramientas de inteligencia
+   artificial para su investigación. Tenga eso si en cuenta que la forma de
+   evaluación será una sustentación donde dichas herramientas no estarán
+   presentes.
+2. Implemente la estructura de datos `TreapSet` que implementa el concepto de
+   conjunto. La clase debe ser genérica en el tipo de los elementos del conjunto
+   y debe proveer por lo menos las siguientes operaciones.
+   - Constructor de un conjunto vacío.
+   - Destructor
+   - `size`: retorna la cardinalidad del conjunto.
+   - `insert`: adiciona un elemento al conjunto.
+   - `remove`: retira un elemento del conjunto.
+   - `member`: recibe un elemento y retorna si éste hace parte del conjunto.
+3. Implemente la estructura de datos `TreapMap` que implementa el concepto de
+   asociación. La clase debe ser genérica en los tipos de datos `Key` y `Value`.
+   El primero es el tipo de dato de la llave y el segundo el de los valores
+   asociados a la llave. La estructura debe contar al menos con las siguientes
+   operaciones:
+   - Constructor de un mapa vacío.
+   - Destructor
+   - `insert`: recibe una llave y su respectivo dato y los inserta dentro de la
+     estructura.
+   - `remove`: recibe una llave y elimina de la estructura de datos la llave y
+     su elemento asociado.
+   - `find`: recibe una llave y retorna el valor asociado a ella o un valor por
+     defecto si no se encuentra.
