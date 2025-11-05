@@ -1,4 +1,5 @@
 #include "treap.hh"
+#include <cstdlib>
 // ---------------------------
 // CONSTRUCTOR DEL NODO
 // ---------------------------
