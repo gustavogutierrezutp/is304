@@ -15,18 +15,16 @@ private:
   vector<list<pair<string, string>>> storage;
   unsigned int sz;
   unsigned int hash(const string &key) const {
-    return key.length(); // Simple hash function based on string length
-    //return std::hash<std::string>{}(key); // Better hash function using std::hash
+    //return key.length(); // Simple hash function based on string length
+    return std::hash<std::string>{}(key);
   }
 public:
   Hashtable(unsigned int vector_size) : m(vector_size), storage(m, list<pair<string, string>>()), sz(0) {}
   ~Hashtable() {}
   void insert(const string &key, const string &value) {
     unsigned int index = hash(key) % m;
-    cout << "Inserting key: " << key << " at index: " << index << endl;
     for (auto it = storage[index].begin(); it != storage[index].end(); ++it) {
       if (it->first == key) {
-        cout << "Updating key: " << key << " at index: " << index << endl;
         it->second = value;
         return;
       }
@@ -34,6 +32,30 @@ public:
     pair<string, string> entry = make_pair(key, value);
     storage[index].push_back(entry);
     sz++;
+  }
+
+  string find(const string &key) {
+    unsigned int index = hash(key) % m;
+    for (auto it = storage[index].begin(); it != storage[index].end(); ++it) {
+      if (it->first == key) {
+        return it->second;
+      }
+    }
+    return ""; // Not found
+  }
+
+  void remove(const string &key) {
+    unsigned int index = hash(key) % m;
+    auto elem = storage[index].end();
+    for (auto it = storage[index].begin(); it != storage[index].end(); ++it) {
+      if (it->first == key) {
+        elem = it;
+      }
+    }
+    if (elem != storage[index].end()) {
+      storage[index].erase(elem);
+      sz--;
+    }
   }
 
   unsigned int size() const {
@@ -49,6 +71,23 @@ public:
       cout << endl;
     }
   }
+
+  void distribution() {
+    for (unsigned int i = 0; i < m; ++i) {
+      cout << "Index " << i << ": ";
+      for (unsigned int j = 0; j < storage[i].size(); ++j) {
+        cout << "*";
+      }
+      cout << endl;
+    }
+  }
+
+  double load_factor() const {
+    double sz = static_cast<double>(size());
+    return sz / m;
+  }
+
+
 };
 
 #endif // __HASHTABLE_HH__
