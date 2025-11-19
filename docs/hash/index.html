@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gustavo Gutiérres-Sabogal">
+
+<title>Estructura de datos treap</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap-e8af4a94f456d0f9129c64e652c6e685.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Estructura de datos treap</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Gustavo Gutiérres-Sabogal </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>Un treap <span class="citation" data-cites="aragon1989randomized"><a href="#ref-aragon1989randomized" role="doc-biblioref">[1]</a></span> es una estructura de datos que combina las propiedades de un árbol binario de búsqueda (BST) y un heap. El nombre “treap” proviene de la fusión de las palabras “tree” (árbol) y “heap” (montículo).</p>
+<p>El treap resuelve un problema importante de los árboles binarios de búsqueda tradicionales: la degeneración. En un BST normal, si insertamos elementos en orden, el árbol se convierte en una lista enlazada, degradando las operaciones de <span class="math inline">\(O(\log n)\)</span> a <span class="math inline">\(O(n)\)</span>.</p>
+<p>Al asignar prioridades aleatorias a cada nodo, el treap se mantiene balanceado con <strong>alta probabilidad</strong>, garantizando operaciones de búsqueda, inserción y eliminación en tiempo esperado <span class="math inline">\(O(\log n)\)</span>.</p>
+<p>Los treaps son una extensión probabilística de los árboles binarios de búsqueda. Como tal, implementan los mismos conceptos matemáticos: conjunto, función. Cuando un BST implementa el concepto de conjunto, en sus nodos solo se almacena un dato: el elemento del conjunto.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 412.00 359.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 355)">
+<title>D</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-355 408,-355 408,4 -4,4"></polygon>
+<!-- 50 -->
+<g id="node1" class="node">
+<title>50</title>
+<ellipse fill="lightblue" stroke="black" cx="228.5" cy="-329.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="228.5" y="-325.3" font-family="Arial" font-size="14.00">50</text>
+</g>
+<!-- 30 -->
+<g id="node2" class="node">
+<title>30</title>
+<ellipse fill="lightblue" stroke="black" cx="132.5" cy="-222" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="132.5" y="-217.8" font-family="Arial" font-size="14.00">30</text>
+</g>
+<!-- 50&#45;&gt;30 -->
+<g id="edge1" class="edge">
+<title>50-&gt;30</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M214.33,-312.93C198.31,-295.32 172.05,-266.47 153.61,-246.2"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="156.04,-243.67 146.72,-238.63 150.86,-248.38 156.04,-243.67"></polygon>
+</g>
+<!-- 70 -->
+<g id="node3" class="node">
+<title>70</title>
+<ellipse fill="lightblue" stroke="black" cx="323.5" cy="-222" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="323.5" y="-217.8" font-family="Arial" font-size="14.00">70</text>
+</g>
+<!-- 50&#45;&gt;70 -->
+<g id="edge3" class="edge">
+<title>50-&gt;70</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M242.52,-312.93C258.37,-295.32 284.36,-266.47 302.61,-246.2"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="305.33,-248.4 309.42,-238.63 300.13,-243.72 305.33,-248.4"></polygon>
+</g>
+<!-- null1 -->
+<!-- 50&#45;&gt;null1 -->
+<!-- 20 -->
+<g id="node4" class="node">
+<title>20</title>
+<ellipse fill="lightblue" stroke="black" cx="71.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="71.5" y="-110.3" font-family="Arial" font-size="14.00">20</text>
+</g>
+<!-- 30&#45;&gt;20 -->
+<g id="edge4" class="edge">
+<title>30-&gt;20</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M122.15,-203.1C112.51,-186.43 98.01,-161.35 86.99,-142.29"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="89.93,-140.39 81.9,-133.48 83.87,-143.89 89.93,-140.39"></polygon>
+</g>
+<!-- 40 -->
+<g id="node5" class="node">
+<title>40</title>
+<ellipse fill="lightblue" stroke="black" cx="187.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="187.5" y="-110.3" font-family="Arial" font-size="14.00">40</text>
+</g>
+<!-- 30&#45;&gt;40 -->
+<g id="edge6" class="edge">
+<title>30-&gt;40</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M142.08,-202.62C150.66,-186.16 163.37,-161.78 173.16,-143"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="176.33,-144.51 177.84,-134.02 170.12,-141.27 176.33,-144.51"></polygon>
+</g>
+<!-- null2 -->
+<!-- 30&#45;&gt;null2 -->
+<!-- 60 -->
+<g id="node6" class="node">
+<title>60</title>
+<ellipse fill="lightblue" stroke="black" cx="266.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="266.5" y="-110.3" font-family="Arial" font-size="14.00">60</text>
+</g>
+<!-- 70&#45;&gt;60 -->
+<g id="edge7" class="edge">
+<title>70-&gt;60</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M313.57,-202.62C304.62,-186.06 291.34,-161.48 281.17,-142.65"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="284.15,-140.8 276.31,-133.67 277.99,-144.13 284.15,-140.8"></polygon>
+</g>
+<!-- 80 -->
+<g id="node7" class="node">
+<title>80</title>
+<ellipse fill="lightblue" stroke="black" cx="382.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="382.5" y="-110.3" font-family="Arial" font-size="14.00">80</text>
+</g>
+<!-- 70&#45;&gt;80 -->
+<g id="edge9" class="edge">
+<title>70-&gt;80</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M333.78,-202.62C343.08,-185.98 356.91,-161.26 367.46,-142.39"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="370.51,-144.1 372.34,-133.67 364.4,-140.69 370.51,-144.1"></polygon>
+</g>
+<!-- null3 -->
+<!-- 70&#45;&gt;null3 -->
+<!-- 10 -->
+<g id="node8" class="node">
+<title>10</title>
+<ellipse fill="lightblue" stroke="black" cx="21.5" cy="-21.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="21.5" y="-17.3" font-family="Arial" font-size="14.00">10</text>
+</g>
+<!-- 20&#45;&gt;10 -->
+<g id="edge10" class="edge">
+<title>20-&gt;10</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M61.38,-95.08C54.22,-82.05 44.49,-64.35 36.44,-49.69"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="39.32,-47.66 31.43,-40.58 33.18,-51.03 39.32,-47.66"></polygon>
+</g>
+<!-- 25 -->
+<g id="node9" class="node">
+<title>25</title>
+<ellipse fill="lightblue" stroke="black" cx="100.5" cy="-21.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="100.5" y="-17.3" font-family="Arial" font-size="14.00">25</text>
+</g>
+<!-- 20&#45;&gt;25 -->
+<g id="edge11" class="edge">
+<title>20-&gt;25</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M77.79,-93.75C81.67,-81.59 86.71,-65.77 91.06,-52.12"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="94.52,-52.8 94.22,-42.21 87.85,-50.67 94.52,-52.8"></polygon>
+</g>
+<!-- 65 -->
+<g id="node10" class="node">
+<title>65</title>
+<ellipse fill="lightblue" stroke="black" cx="208.5" cy="-21.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="middle" x="208.5" y="-17.3" font-family="Arial" font-size="14.00">65</text>
+</g>
+<!-- 60&#45;&gt;65 -->
+<g id="edge12" class="edge">
+<title>60-&gt;65</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M255.32,-95.95C246.73,-82.48 234.74,-63.68 225.05,-48.47"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="227.97,-46.54 219.65,-39.99 222.07,-50.31 227.97,-46.54"></polygon>
+</g>
+<!-- null4 -->
+<!-- 60&#45;&gt;null4 -->
+<!-- null5 -->
+<!-- 60&#45;&gt;null5 -->
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Si en lugar del concepto de conjunto se quisiera representar una relación de asociación el árbol tendría dos datos por cada nivel. Uno de esos datos se denomina la llave y el otro es al valor asociado a esa llave. En la siguiente figura la llave es elemento que se presenta en la parte superior de cada nodo y el valor asociado se presenta debajo. Note que pueden haber valores repetidos: nodo con llave 50 y nodo con llave 40 ambos tienen un valor asociado de A. Sin embargo las llaves deben ser únicas en el árbol.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<svg width="672" height="480" viewbox="0.00 0.00 412.00 359.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" style="; max-width: none; max-height: none">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 355)">
+<title>D</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-355 408,-355 408,4 -4,4"></polygon>
+<!-- 50 -->
+<g id="node1" class="node">
+<title>50</title>
+<ellipse fill="lightblue" stroke="black" cx="228.5" cy="-329.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="220.71" y="-331.9" font-family="Arial" font-weight="bold" font-size="14.00">50</text>
+<text text-anchor="start" x="223.83" y="-317.9" font-family="Arial" font-size="14.00">A</text>
+</g>
+<!-- 30 -->
+<g id="node2" class="node">
+<title>30</title>
+<ellipse fill="lightblue" stroke="black" cx="132.5" cy="-222" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="124.71" y="-224.4" font-family="Arial" font-weight="bold" font-size="14.00">30</text>
+<text text-anchor="start" x="127.83" y="-210.4" font-family="Arial" font-size="14.00">S</text>
+</g>
+<!-- 50&#45;&gt;30 -->
+<g id="edge1" class="edge">
+<title>50-&gt;30</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M214.33,-312.93C198.31,-295.32 172.05,-266.47 153.61,-246.2"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="156.04,-243.67 146.72,-238.63 150.86,-248.38 156.04,-243.67"></polygon>
+</g>
+<!-- 70 -->
+<g id="node3" class="node">
+<title>70</title>
+<ellipse fill="lightblue" stroke="black" cx="323.5" cy="-222" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="315.71" y="-224.4" font-family="Arial" font-weight="bold" font-size="14.00">70</text>
+<text text-anchor="start" x="319.22" y="-210.4" font-family="Arial" font-size="14.00">T</text>
+</g>
+<!-- 50&#45;&gt;70 -->
+<g id="edge3" class="edge">
+<title>50-&gt;70</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M242.52,-312.93C258.37,-295.32 284.36,-266.47 302.61,-246.2"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="305.33,-248.4 309.42,-238.63 300.13,-243.72 305.33,-248.4"></polygon>
+</g>
+<!-- null1 -->
+<!-- 50&#45;&gt;null1 -->
+<!-- 20 -->
+<g id="node4" class="node">
+<title>20</title>
+<ellipse fill="lightblue" stroke="black" cx="71.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="63.71" y="-116.9" font-family="Arial" font-weight="bold" font-size="14.00">20</text>
+<text text-anchor="start" x="66.83" y="-102.9" font-family="Arial" font-size="14.00">V</text>
+</g>
+<!-- 30&#45;&gt;20 -->
+<g id="edge4" class="edge">
+<title>30-&gt;20</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M122.15,-203.1C112.51,-186.43 98.01,-161.35 86.99,-142.29"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="89.93,-140.39 81.9,-133.48 83.87,-143.89 89.93,-140.39"></polygon>
+</g>
+<!-- 40 -->
+<g id="node5" class="node">
+<title>40</title>
+<ellipse fill="lightblue" stroke="black" cx="187.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="179.71" y="-116.9" font-family="Arial" font-weight="bold" font-size="14.00">40</text>
+<text text-anchor="start" x="182.83" y="-102.9" font-family="Arial" font-size="14.00">A</text>
+</g>
+<!-- 30&#45;&gt;40 -->
+<g id="edge6" class="edge">
+<title>30-&gt;40</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M142.08,-202.62C150.66,-186.16 163.37,-161.78 173.16,-143"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="176.33,-144.51 177.84,-134.02 170.12,-141.27 176.33,-144.51"></polygon>
+</g>
+<!-- null2 -->
+<!-- 30&#45;&gt;null2 -->
+<!-- 60 -->
+<g id="node6" class="node">
+<title>60</title>
+<ellipse fill="lightblue" stroke="black" cx="266.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="258.71" y="-116.9" font-family="Arial" font-weight="bold" font-size="14.00">60</text>
+<text text-anchor="start" x="261.44" y="-102.9" font-family="Arial" font-size="14.00">N</text>
+</g>
+<!-- 70&#45;&gt;60 -->
+<g id="edge7" class="edge">
+<title>70-&gt;60</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M313.57,-202.62C304.62,-186.06 291.34,-161.48 281.17,-142.65"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="284.15,-140.8 276.31,-133.67 277.99,-144.13 284.15,-140.8"></polygon>
+</g>
+<!-- 80 -->
+<g id="node7" class="node">
+<title>80</title>
+<ellipse fill="lightblue" stroke="black" cx="382.5" cy="-114.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="374.71" y="-116.9" font-family="Arial" font-weight="bold" font-size="14.00">80</text>
+<text text-anchor="start" x="377.06" y="-102.9" font-family="Arial" font-size="14.00">Q</text>
+</g>
+<!-- 70&#45;&gt;80 -->
+<g id="edge9" class="edge">
+<title>70-&gt;80</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M333.78,-202.62C343.08,-185.98 356.91,-161.26 367.46,-142.39"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="370.51,-144.1 372.34,-133.67 364.4,-140.69 370.51,-144.1"></polygon>
+</g>
+<!-- null3 -->
+<!-- 70&#45;&gt;null3 -->
+<!-- 10 -->
+<g id="node8" class="node">
+<title>10</title>
+<ellipse fill="lightblue" stroke="black" cx="21.5" cy="-21.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="13.71" y="-23.9" font-family="Arial" font-weight="bold" font-size="14.00">10</text>
+<text text-anchor="start" x="16.83" y="-9.9" font-family="Arial" font-size="14.00">P</text>
+</g>
+<!-- 20&#45;&gt;10 -->
+<g id="edge10" class="edge">
+<title>20-&gt;10</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M61.38,-95.08C54.22,-82.05 44.49,-64.35 36.44,-49.69"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="39.32,-47.66 31.43,-40.58 33.18,-51.03 39.32,-47.66"></polygon>
+</g>
+<!-- 25 -->
+<g id="node9" class="node">
+<title>25</title>
+<ellipse fill="lightblue" stroke="black" cx="100.5" cy="-21.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="92.71" y="-23.9" font-family="Arial" font-weight="bold" font-size="14.00">25</text>
+<text text-anchor="start" x="95.83" y="-9.9" font-family="Arial" font-size="14.00">Y</text>
+</g>
+<!-- 20&#45;&gt;25 -->
+<g id="edge11" class="edge">
+<title>20-&gt;25</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M77.79,-93.75C81.67,-81.59 86.71,-65.77 91.06,-52.12"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="94.52,-52.8 94.22,-42.21 87.85,-50.67 94.52,-52.8"></polygon>
+</g>
+<!-- 65 -->
+<g id="node10" class="node">
+<title>65</title>
+<ellipse fill="lightblue" stroke="black" cx="208.5" cy="-21.5" rx="21.5" ry="21.5"></ellipse>
+<text text-anchor="start" x="200.71" y="-23.9" font-family="Arial" font-weight="bold" font-size="14.00">65</text>
+<text text-anchor="start" x="204.22" y="-9.9" font-family="Arial" font-size="14.00">Z</text>
+</g>
+<!-- 60&#45;&gt;65 -->
+<g id="edge12" class="edge">
+<title>60-&gt;65</title>
+<path fill="none" stroke="black" stroke-width="1.5" d="M255.32,-95.95C246.73,-82.48 234.74,-63.68 225.05,-48.47"></path>
+<polygon fill="black" stroke="black" stroke-width="1.5" points="227.97,-46.54 219.65,-39.99 222.07,-50.31 227.97,-46.54"></polygon>
+</g>
+<!-- null4 -->
+<!-- 60&#45;&gt;null4 -->
+<!-- null5 -->
+<!-- 60&#45;&gt;null5 -->
+</g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Lo anterior tiene como consecuencia que puedan existir diferentes estructuras de datos que internamente usan árboles binarios de búsqueda. Por ejemplo, en el caso de la libraría estándar de C++ los tipos <code>set</code>y <code>map</code> usan internamente variantes de BSTs.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;map&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;set&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Declares an association from strings to strings.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  map<span class="op">&lt;</span>string<span class="op">,</span> string<span class="op">&gt;</span> a<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Declares a set of strings</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  set<span class="op">&lt;</span>string<span class="op">&gt;</span> b<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="treap" class="level2">
+<h2 class="anchored" data-anchor-id="treap">Treap</h2>
+<p>El objetivo de la estructura de datos treap es solucionar el problema clásico que tienen los árboles BST: cuando se realiza la inserción de elementos ordenados el árbol pierde su balance. La consecuencia de lo anterior es que las operaciones de búsqueda, inserción y borrado de elementos incrementan su tiempo de ejecución.</p>
+<p>Existen diferentes estructuras de datos que tratan de solucionar el mismo problema. Por ejemplo, los árboles rojo-negro y los árboles AVL. Sin embargo la solución que cada una de estas estructuras le da al problema es difícil de implementar.</p>
+<p>La solución de los treaps es elegante y simple: unir dos estructuras de datos, un BST y un heap. Formalmente, un treap <span class="math inline">\(T\)</span> es un árbol binario donde cada nodo <span class="math inline">\(v\)</span> contiene un par ordenado <span class="math inline">\((k_v, p_v)\)</span> tal que:</p>
+<ol type="1">
+<li>Propiedad del BST: para todo nodo <span class="math inline">\(v\)</span>:
+<ul>
+<li>Para cada nodo <span class="math inline">\(u\)</span> en los nodos del sub-árbol <em>izquierdo</em> de <span class="math inline">\(v\)</span> se cumple: <span class="math inline">\(u_k &lt; v_k\)</span>.</li>
+<li>Para cada nodo <span class="math inline">\(u\)</span> en los nodos del sub-árbol <em>derecho</em> de <span class="math inline">\(v\)</span> se cumple: <span class="math inline">\(v_k &lt; u_k\)</span>.</li>
+</ul></li>
+<li>Propiedad del MaxHeap: para todo nodo <span class="math inline">\(v\)</span> con padre <span class="math inline">\(u\)</span>: <span class="math inline">\(p_v \leq p_u\)</span></li>
+</ol>
+<p>La definición anterior es para treaps que implementan la noción de conjunto. Cada <span class="math inline">\(k_v\)</span> es uno de los elementos del conjunto. Para el caso de la noción de asociación cada nodo <span class="math inline">\(v\)</span> del treap tiene la forma <span class="math inline">\((k_v, v_v, p_v )\)</span>. El elemento adicional <span class="math inline">\(v_v\)</span> es el valor asociado a la llave <span class="math inline">\(k_v\)</span>. Las propiedades siguen siendo las mismas y este valor no interviene en ellas.</p>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<ol type="1">
+<li>Realice una revisión bibliogŕafica de la estructura de datos treap. Para ello puede comenzar (pero no limitarse) con <span class="citation" data-cites="aragon1989randomized"><a href="#ref-aragon1989randomized" role="doc-biblioref">[1]</a></span> y <span class="citation" data-cites="seidel1996randomized"><a href="#ref-seidel1996randomized" role="doc-biblioref">[2]</a></span>. Es importante que realice una lectura crítica de los documentos. Es libre (como siempre) de utilizar herramientas de inteligencia artificial para su investigación. Tenga eso si en cuenta que la forma de evaluación será una sustentación donde dichas herramientas no estarán presentes.</li>
+<li>Implemente la estructura de datos <code>TreapSet</code> que implementa el concepto de conjunto. La clase debe ser genérica en el tipo de los elementos del conjunto y debe proveer por lo menos las siguientes operaciones.
+<ul>
+<li>Constructor de un conjunto vacío.</li>
+<li>Destructor</li>
+<li><code>size</code>: retorna la cardinalidad del conjunto.</li>
+<li><code>insert</code>: adiciona un elemento al conjunto.</li>
+<li><code>remove</code>: retira un elemento del conjunto.</li>
+<li><code>member</code>: recibe un elemento y retorna si éste hace parte del conjunto.</li>
+</ul></li>
+<li>Implemente la estructura de datos <code>TreapMap</code> que implementa el concepto de asociación. La clase debe ser genérica en los tipos de datos <code>Key</code> y <code>Value</code>. El primero es el tipo de dato de la llave y el segundo el de los valores asociados a la llave. La estructura debe contar al menos con las siguientes operaciones:
+<ul>
+<li>Constructor de un mapa vacío.</li>
+<li>Destructor</li>
+<li><code>insert</code>: recibe una llave y su respectivo dato y los inserta dentro de la estructura.</li>
+<li><code>remove</code>: recibe una llave y elimina de la estructura de datos la llave y su elemento asociado.</li>
+<li><code>find</code>: recibe una llave y retorna el valor asociado a ella o un valor por defecto si no se encuentra.</li>
+</ul></li>
+</ol>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-aragon1989randomized" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">C. R. Aragon and R. Seidel, <span>“Randomized search trees,”</span> <em>Algorithmica</em>, vol. 16, no. 4–5, pp. 464–497, 1996, doi: <a href="https://doi.org/10.1007/BF01940876">10.1007/BF01940876</a>.</div>
+</div>
+<div id="ref-seidel1996randomized" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">R. Seidel and C. R. Aragon, <span>“Randomized search trees,”</span> University of California, Berkeley, UCB/CSD-96-915, 1996.</div>
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
