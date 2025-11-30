@@ -6,6 +6,8 @@ These exercises will help you practice using the custom `Vector<T>` implementati
 
 ## Vectors as data structures
 
+## mi tarea esta desde la linea 130 de vector.cpp
+
 ### 1. **Sum of Elements**
 Write a function that takes a `Vector<int>` and returns the sum of all elements.  
 
@@ -31,7 +33,17 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 Vector<int> filterEven(const Vector<int>& v);
 ```
 
-### 4. Dynamic Growth Test
+### 4. Dot Product of Two Vectors
+
+Write a function that computes the dot product of two `Vector<int>` (element-wise multiplication and sum).
+If the vectors don’t have the same size, throw an exception or print an error.
+
+**Signature:**
+```cpp
+int dotProduct(const Vector<int>& a, const Vector<int>& b);
+```
+
+### 5. Dynamic Growth Test
 
 Write a program that:
 
@@ -49,7 +61,7 @@ Size: 11, Capacity: 15
 ...
 ```
 
-### 5. Merge Two Sorted Vectors
+### 6. Merge Two Sorted Vectors
 
 Implement a function that merges two sorted Vector<int> into one sorted vector (like the merge step of MergeSort).
 
