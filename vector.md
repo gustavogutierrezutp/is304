@@ -3,6 +3,8 @@
 These exercises will help you practice using the custom `Vector<T>` implementation.
 
 ---
+## Exercises Solutions
+All the solutions for the 5 exercises are located in the **exercises** folder.
 
 ## Vectors as data structures
 
@@ -13,6 +15,10 @@ Write a function that takes a `Vector<int>` and returns the sum of all elements.
 ```cpp
 int sumVector(const Vector<int>& v);
 ```
+exercises
+ 1_sum_of_elements
+ 1sum.cpp
+
 ### 2. Reverse a Vector
 
 Write a function that takes a Vector<int> and returns a new Vector<int> with elements in reverse order.
@@ -21,6 +27,9 @@ Write a function that takes a Vector<int> and returns a new Vector<int> with ele
 ```cpp
 Vector<int> reverseVector(const Vector<int>& v);
 ```
+exercises
+ 2_reverse_vector
+ 2reverse.cpp
 
 ### 3. **Filter Even Numbers**
 
@@ -30,6 +39,9 @@ Write a function that takes a `Vector<int>` and returns a new vector containing 
 ```cpp
 Vector<int> filterEven(const Vector<int>& v);
 ```
+exercises
+ 3_filter
+ 3filter.cpp
 
 ### 4. Dynamic Growth Test
 
@@ -49,6 +61,10 @@ Size: 11, Capacity: 15
 ...
 ```
 
+exercises
+ 4_dynamic_growth
+ 4dynamic.cpp
+
 ### 5. Merge Two Sorted Vectors
 
 Implement a function that merges two sorted Vector<int> into one sorted vector (like the merge step of MergeSort).
@@ -57,6 +73,13 @@ Implement a function that merges two sorted Vector<int> into one sorted vector (
 ```cpp
 Vector<int> mergeSorted(const Vector<int>& a, const Vector<int>& b);
 ```
+exercises
+ 5_merge_two
+ 5merge.cpp
+
+
+
+## The linear algebra exercises were not completed.
 
 ## Vectors in the context of linear algebra
 
