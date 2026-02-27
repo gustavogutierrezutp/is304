@@ -41,11 +41,5 @@ int main() {
   q.print();
   double d = p.distance(&q);
   cout << "Distance: " << d << endl;
-  Point *r = &q;
-  r->print();
-
-  Point *s = new Point();
-  s->print();
-  delete s;
   return 0;
 }
