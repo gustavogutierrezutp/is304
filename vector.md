@@ -9,6 +9,8 @@ These exercises will help you practice using the custom `Vector<T>` implementati
 ### 1. **Sum of Elements**
 Write a function that takes a `Vector<int>` and returns the sum of all elements.  
 
+R/= **DESDE LA LINEA NUMERO 5 ESTA LA FUNCION SUMA VECTOR DEL ARCHIVO VECTOR.CPP**
+
 **Signature:**
 ```cpp
 int sumVector(const Vector<int>& v);
@@ -16,6 +18,8 @@ int sumVector(const Vector<int>& v);
 ### 2. Reverse a Vector
 
 Write a function that takes a Vector<int> and returns a new Vector<int> with elements in reverse order.
+
+R/= **DESDE LA LINEA NUMERO 21 COMIENZA LA FUNCION REVERSE VECTOR EN EL ARCHIVO VECTOR.CPP**
 
 **Signature:**
 ```cpp
@@ -26,12 +30,14 @@ Vector<int> reverseVector(const Vector<int>& v);
 
 Write a function that takes a `Vector<int>` and returns a new vector containing only the even numbers.
 
+**LINEA 32 ARCHIVO VECTOR.CPP**
+
 **Signature:**
 ```cpp
 Vector<int> filterEven(const Vector<int>& v);
 ```
 
-### 4. Dynamic Growth Test
+### 4. Dynamic Growth Test **ARCHIVO DYNAMICGROWTHTEST.CPP**
 
 Write a program that:
 
